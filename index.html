@@ -465,6 +465,18 @@
     </section>
 
     <section>
+      <h2 class="section-title">Crescimento ano a ano, por cenário</h2>
+      <p class="section-note">Todos partem do mesmo ponto real (ano 2, R$100k) e desaceleram — a diferença entre cenários é a velocidade da largada e o piso de desaceleração, não uma curva sem freio.</p>
+      <div class="chart-card">
+        <canvas id="atmanGrowthChart" height="240"></canvas>
+      </div>
+      <table class="simple">
+        <thead><tr><th>Ano</th><th>Crise</th><th>Conservador</th><th>Base</th><th>Otimista</th><th>Máximo</th></tr></thead>
+        <tbody id="atmanGrowthBody"></tbody>
+      </table>
+    </section>
+
+    <section>
       <h2 class="section-title">Uma metodologia, cinco intensidades</h2>
       <p class="section-note">Todos os 5 cenários do Plano Patrimonial usam a mesma lógica de calibração (crescimento forte que desacelera) — variando só o quão forte é a largada e o quão alto é o teto de desaceleração.</p>
       <table class="simple">
@@ -480,15 +492,17 @@
     </section>
 
     <section>
-      <h2 class="section-title">DRE — cenário calibrado (Base)</h2>
-      <p class="section-note">CMV recalibrado com piso mais realista: 31% no ano 1 caindo até 22% no ano 10 — não os 16% do business case original. Terceirização de produção reduz custo com escala, mas o fornecedor contratado também tem margem própria; esse piso não desaparece.</p>
+      <h2 class="section-title">DRE completa — cenário calibrado (Base)</h2>
+      <p class="section-note">Mesma estrutura de quebras do business case original (Deduções, CMV, Despesas de Vendas, Despesas Administrativas com Pró-Labore/Payroll/P&D), aplicada à curva recalibrada com CMV mais realista.</p>
       <div class="chart-card">
         <canvas id="atmanDreChart" height="220"></canvas>
       </div>
-      <table class="simple">
-        <thead><tr><th>Ano</th><th>Receita</th><th>CMV</th><th>Margem bruta</th><th>EBITDA</th></tr></thead>
-        <tbody id="atmanDreBody"></tbody>
+      <div style="overflow-x:auto;">
+      <table class="simple" id="atmanDreFullTable" style="min-width:820px; font-size:12px;">
+        <thead><tr id="atmanDreFullHead"></tr></thead>
+        <tbody id="atmanDreFullBody"></tbody>
       </table>
+      </div>
     </section>
 
     <section>
@@ -945,24 +959,77 @@ function initCarreira() {
 }
 
 function initAtman() {
-  const dre = [{"receita": 70172.62, "cmv": 21753.51, "margem": 48419.11, "ebitda": 32981.13}, {"receita": 100000.0, "cmv": 28000.0, "margem": 72000.0, "ebitda": 52000.0}, {"receita": 200000, "cmv": 54000.0, "margem": 146000.0, "ebitda": 108000.0}, {"receita": 360000, "cmv": 93600.0, "margem": 266400.0, "ebitda": 201600.0}, {"receita": 576000, "cmv": 144000.0, "margem": 432000.0, "ebitda": 334080.0}, {"receita": 835200, "cmv": 200448.0, "margem": 634752.0, "ebitda": 501120.0}, {"receita": 1127520, "cmv": 270604.8, "margem": 856915.2, "ebitda": 676512.0}, {"receita": 1409400, "cmv": 324162.0, "margem": 1085238.0, "ebitda": 873828.0}, {"receita": 1691280, "cmv": 388994.4, "margem": 1302285.6, "ebitda": 1048593.6}, {"receita": 1944972, "cmv": 427893.84, "margem": 1517078.16, "ebitda": 1244782.08}];
-  const labels = dre.map((d,i) => 'Ano ' + (i+1));
+  const dre = [{"ano": 1, "receita_bruta": 70172.62, "deducoes": 0.0, "receita_liquida": 70172.62, "cmv": 21753.51, "lucro_bruto": 48419.11, "mkt": 6315.54, "admin_total": 15437.98, "pro_labore": 13332.8, "payroll": 0.0, "pd": 2105.18, "ebitda": 26665.6}, {"ano": 2, "receita_bruta": 100000, "deducoes": 20000.0, "receita_liquida": 80000.0, "cmv": 28000.0, "lucro_bruto": 52000.0, "mkt": 8000.0, "admin_total": 21000.0, "pro_labore": 11400.0, "payroll": 7600.0, "pd": 2000.0, "ebitda": 23000.0}, {"ano": 3, "receita_bruta": 200000, "deducoes": 40000.0, "receita_liquida": 160000.0, "cmv": 54000.0, "lucro_bruto": 106000.0, "mkt": 16000.0, "admin_total": 41000.0, "pro_labore": 22200.0, "payroll": 14800.0, "pd": 4000.0, "ebitda": 49000.0}, {"ano": 4, "receita_bruta": 360000, "deducoes": 72000.0, "receita_liquida": 288000.0, "cmv": 93600.0, "lucro_bruto": 194400.0, "mkt": 25200.0, "admin_total": 72000.0, "pro_labore": 28512.0, "payroll": 36288.0, "pd": 7200.0, "ebitda": 97200.0}, {"ano": 5, "receita_bruta": 576000, "deducoes": 115200.0, "receita_liquida": 460800.0, "cmv": 144000.0, "lucro_bruto": 316800.0, "mkt": 34560.0, "admin_total": 115200.0, "pro_labore": 45619.2, "payroll": 58060.8, "pd": 11520.0, "ebitda": 167040.0}, {"ano": 6, "receita_bruta": 835200, "deducoes": 167040.0, "receita_liquida": 668160.0, "cmv": 200448.0, "lucro_bruto": 467712.0, "mkt": 50112.0, "admin_total": 167040.0, "pro_labore": 66147.84, "payroll": 84188.16, "pd": 16704.0, "ebitda": 250560.0}, {"ano": 7, "receita_bruta": 1127520, "deducoes": 225504.0, "receita_liquida": 902016.0, "cmv": 270604.8, "lucro_bruto": 631411.2, "mkt": 67651.2, "admin_total": 214228.8, "pro_labore": 84338.5, "payroll": 107339.9, "pd": 22550.4, "ebitda": 349531.2}, {"ano": 8, "receita_bruta": 1409400, "deducoes": 281880.0, "receita_liquida": 1127520.0, "cmv": 324162.0, "lucro_bruto": 803358.0, "mkt": 84564.0, "admin_total": 253692.0, "pro_labore": 105423.12, "payroll": 134174.88, "pd": 14094.0, "ebitda": 465102.0}, {"ano": 9, "receita_bruta": 1691280, "deducoes": 338256.0, "receita_liquida": 1353024.0, "cmv": 388994.4, "lucro_bruto": 964029.6, "mkt": 101476.8, "admin_total": 287517.6, "pro_labore": 119066.11, "payroll": 151538.69, "pd": 16912.8, "ebitda": 575035.2}, {"ano": 10, "receita_bruta": 1944972, "deducoes": 388994.4, "receita_liquida": 1555977.6, "cmv": 427893.84, "lucro_bruto": 1128083.76, "mkt": 106973.46, "admin_total": 330645.24, "pro_labore": 136926.03, "payroll": 174269.49, "pd": 19449.72, "ebitda": 690465.06}];
+  const labels = dre.map(d => 'Ano ' + d.ano);
   function fmtA(v){ return 'R$ ' + Math.round(v).toLocaleString('pt-BR'); }
+
   new Chart(document.getElementById('atmanDreChart'), {
     type: 'bar',
     data: { labels, datasets: [
-        { label:'Receita', data: dre.map(d=>d.receita), backgroundColor:'#63AEA4' },
+        { label:'Receita Bruta', data: dre.map(d=>d.receita_bruta), backgroundColor:'#63AEA4' },
         { label:'EBITDA', data: dre.map(d=>d.ebitda), backgroundColor:'#E0AD63' }
       ] },
     options: { responsive:true, plugins:{ legend:{display:true, labels:{color:'#8B93A0', font:{size:11}}}, tooltip:{callbacks:{label:ctx=>ctx.dataset.label+': '+fmtA(ctx.raw)}} },
       scales:{ x:{grid:{display:false}}, y:{grid:{color:'#3A4453'}, ticks:{callback:v=>'R$'+(v/1000)+'k'}} } }
   });
-  const tbody = document.getElementById('atmanDreBody');
-  dre.forEach((d,i) => {
+
+  // Full DRE table matching the original business case breakdown
+  const dreRowsDef = [
+    {key:'receita_bruta', label:'(=) Receita Bruta', bold:true},
+    {key:'deducoes', label:'(-) Deduções e Impostos'},
+    {key:'receita_liquida', label:'(=) Receita Líquida', bold:true},
+    {key:'cmv', label:'(-) CMV'},
+    {key:'lucro_bruto', label:'(=) Lucro Bruto', bold:true},
+    {key:'mkt', label:'(-) Despesas de Vendas (MKT)'},
+    {key:'admin_total', label:'(-) Despesas Administrativas (PR, P&D)'},
+    {key:'pro_labore', label:'Pró-Labore', indent:true},
+    {key:'payroll', label:'Payroll', indent:true},
+    {key:'pd', label:'P&D', indent:true},
+    {key:'ebitda', label:'(=) EBITDA / Lucro Líquido', bold:true}
+  ];
+
+  const head = document.getElementById('atmanDreFullHead');
+  head.innerHTML = '<th>DRE</th>' + labels.map(l=>`<th>${l}</th>`).join('');
+
+  const body = document.getElementById('atmanDreFullBody');
+  dreRowsDef.forEach(rowDef => {
     const tr = document.createElement('tr');
-    tr.innerHTML = `<td>Ano ${i+1}</td><td>${fmtA(d.receita)}</td><td>${fmtA(d.cmv)}</td><td>${fmtA(d.margem)}</td><td>${fmtA(d.ebitda)}</td>`;
-    tbody.appendChild(tr);
+    const labelStyle = rowDef.bold ? 'font-weight:600;color:#DCD7CA;' : (rowDef.indent ? 'padding-left:20px;font-style:italic;color:#8B93A0;' : '');
+    let cells = `<td style="${labelStyle}">${rowDef.label}</td>`;
+    dre.forEach(d => { cells += `<td>${fmtA(d[rowDef.key])}</td>`; });
+    tr.innerHTML = cells;
+    body.appendChild(tr);
   });
+
+  const growthTable = {"Crise": [null, 42.5, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "Conservador": [null, 42.5, 70.0, 50.0, 35.0, 25.0, 18.0, 14.0, 11.0, 9.0], "Base": [null, 42.5, 100.0, 80.0, 60.0, 45.0, 35.0, 25.0, 20.0, 15.0], "Otimista": [null, 42.5, 160.0, 120.0, 90.0, 65.0, 48.0, 36.0, 28.0, 22.0], "Máximo": [null, 42.5, 180.0, 140.0, 105.0, 78.0, 58.0, 44.0, 34.0, 26.0]};
+  const growthColors = {Crise:'#8B93A0', Conservador:'#63AEA4', Base:'#E0AD63', Otimista:'#D07E5D', "Máximo":'#A493D1'};
+  new Chart(document.getElementById('atmanGrowthChart'), {
+    type: 'line',
+    data: {
+      labels,
+      datasets: Object.keys(growthTable).map(key => ({
+        label: key, data: growthTable[key], borderColor: growthColors[key], backgroundColor: growthColors[key],
+        tension: 0.3, pointRadius: 3, spanGaps: true
+      }))
+    },
+    options: {
+      responsive:true,
+      plugins:{ legend:{display:true, labels:{color:'#8B93A0', font:{size:11}}}, tooltip:{callbacks:{label:ctx=> ctx.dataset.label+': '+(ctx.raw===null?'—':ctx.raw+'%')}} },
+      scales:{ x:{grid:{display:false}}, y:{grid:{color:'#3A4453'}, ticks:{callback:v=>v+'%'}} }
+    }
+  });
+
+  const growthBody = document.getElementById('atmanGrowthBody');
+  for (let i=0;i<10;i++) {
+    const tr = document.createElement('tr');
+    let cells = `<td>Ano ${i+1}</td>`;
+    ['Crise','Conservador','Base','Otimista','Máximo'].forEach(key => {
+      const v = growthTable[key][i];
+      cells += `<td>${v===null?'—':v+'%'}</td>`;
+    });
+    tr.innerHTML = cells;
+    growthBody.appendChild(tr);
+  }
 }
 
 function initSaas() {
