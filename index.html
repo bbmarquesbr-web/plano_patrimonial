@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Plano Patrimonial · 10 Anos</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+<style>
+  :root{
+    --ink:#050608; --ink-2:#0C0F13; --panel:#171C24; --text:#D9D4C8; --text-soft:#8B93A0;
+    --brass:#E0AD63; --teal:#63AEA4; --rust:#D07E5D; --violet:#A493D1; --line:#3A4453; --radius:14px;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{background:var(--ink);color:var(--text);font-family:'IBM Plex Sans', sans-serif;line-height:1.55;-webkit-font-smoothing:antialiased;}
+  .wrap{max-width:880px;margin:0 auto;padding:0 20px 80px;}
+  .eyebrow{font-family:'IBM Plex Mono', monospace;font-size:12px;letter-spacing:0.14em;text-transform:uppercase;color:var(--brass);margin:0 0 10px;}
+  h1,h2,h3{font-family:'Fraunces', serif;font-weight:500;margin:0;color:#DCD7CA;}
+  header.hero{padding:48px 0 32px;border-bottom:1px solid var(--line);position:sticky;top:0;background:var(--ink);z-index:10;}
+  h1.title{font-size:clamp(26px,6.5vw,40px);line-height:1.1;letter-spacing:-0.01em;}
+  .hero-sub{margin-top:14px;max-width:60ch;color:var(--text-soft);font-size:14.5px;}
+
+  .scenario-tabs{display:flex;gap:8px;flex-wrap:wrap;margin-top:20px;}
+  .scenario-tab{
+    font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:0.02em;
+    background:var(--panel);color:var(--text-soft);border:1px solid var(--line);
+    border-radius:20px;padding:9px 14px;cursor:pointer;transition:all .15s ease;
+  }
+  .scenario-tab:hover{border-color:var(--brass);color:var(--text);}
+  .scenario-tab.active{background:var(--brass);color:#12161C;border-color:var(--brass);font-weight:600;}
+
+  .hero-stat{margin-top:24px;display:flex;align-items:baseline;gap:18px;flex-wrap:wrap;}
+  .hero-stat .big{font-family:'Fraunces', serif;font-size:clamp(48px,12vw,76px);color:var(--brass);line-height:1;font-variant-numeric:tabular-nums;}
+  .hero-stat .big.miss{color:var(--rust);font-size:clamp(24px,6vw,34px);}
+  .hero-stat .caption{font-size:13px;color:var(--text-soft);max-width:26ch;}
+
+  section{padding:40px 0;border-bottom:1px solid var(--line);}
+  section:last-of-type{border-bottom:none;}
+  h2.section-title{font-size:21px;margin-bottom:6px;}
+  .section-note{color:var(--text-soft);font-size:14px;margin-bottom:20px;max-width:62ch;}
+
+  .stream-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:8px;}
+  @media (max-width:760px){.stream-grid{grid-template-columns:repeat(2,1fr);}}
+  @media (max-width:480px){.stream-grid{grid-template-columns:1fr;}}
+  .stream-card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:16px;}
+  .stream-card .label{font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.07em;text-transform:uppercase;color:var(--text-soft);}
+  .stream-card .desc{margin-top:8px;font-size:13px;color:var(--text);line-height:1.45;}
+
+  .chart-card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:20px 16px 8px;margin-top:8px;}
+  .chart-card canvas{max-width:100%;}
+  .legend-row{display:flex;gap:18px;flex-wrap:wrap;margin:14px 4px 4px;font-size:12.5px;color:var(--text-soft);}
+  .legend-row span{display:inline-flex;align-items:center;gap:6px;}
+  .dot{width:9px;height:9px;border-radius:50%;display:inline-block;}
+
+  table.milestones{width:100%;border-collapse:collapse;margin-top:18px;font-family:'IBM Plex Mono',monospace;font-size:13px;}
+  table.milestones th, table.milestones td{padding:10px 8px;text-align:right;border-bottom:1px solid var(--line);}
+  table.milestones th:first-child, table.milestones td:first-child{text-align:left;color:var(--text-soft);}
+  table.milestones th{font-family:'IBM Plex Sans',sans-serif;font-weight:600;font-size:12px;color:var(--text-soft);text-transform:uppercase;letter-spacing:0.04em;}
+  table.milestones tr.hit td{color:var(--brass);font-weight:600;}
+
+  .insight-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:14px;}
+  .insight-list li{background:var(--panel);border-left:3px solid var(--brass);border-radius:0 10px 10px 0;padding:14px 16px;font-size:14.5px;}
+  .insight-list li b{color:#DCD7CA;}
+  .insight-list li.caution{border-left-color:var(--rust);}
+  .insight-list li.caution b{color:var(--rust);}
+
+  ol.actions{margin:0;padding-left:0;list-style:none;counter-reset:step;display:flex;flex-direction:column;gap:16px;}
+  ol.actions li{counter-increment:step;position:relative;padding-left:44px;font-size:14.5px;}
+  ol.actions li::before{content:counter(step);position:absolute;left:0;top:-2px;font-family:'Fraunces',serif;font-size:22px;color:var(--brass);width:32px;}
+  ol.actions li b{color:#DCD7CA;display:block;margin-bottom:2px;font-size:15px;}
+
+  .assumptions{font-size:12.5px;color:var(--text-soft);background:var(--ink-2);border:1px solid var(--line);border-radius:var(--radius);padding:18px;}
+  .assumptions h3{font-size:14px;color:var(--text);margin-bottom:10px;font-family:'IBM Plex Sans',sans-serif;font-weight:600;}
+  .assumptions ul{margin:0;padding-left:18px;}
+  .assumptions li{margin-bottom:6px;}
+
+  footer{padding:32px 0 0;color:var(--text-soft);font-size:12px;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="hero">
+    <p class="eyebrow">Plano Patrimonial · Bruno Marques · 2026–2036</p>
+    <h1 class="title">Cinco motores de renda,<br>um objetivo: R$ 1 milhão.</h1>
+    <p class="hero-sub">Escolha um cenário — do mais adverso ao upside completo — e veja todo o plano reagir: renda, trajetória, insights e premissas.</p>
+
+    <div class="scenario-tabs" id="scenarioTabs"></div>
+
+    <div class="hero-stat">
+      <div class="big" id="heroBig">–</div>
+      <div class="caption" id="heroCaption">anos até o primeiro milhão</div>
+    </div>
+  </header>
+
+  <section>
+    <h2 class="section-title">As fontes de renda neste cenário</h2>
+    <p class="section-note">Cada motor assume um comportamento diferente dependendo do cenário selecionado acima.</p>
+    <div class="stream-grid">
+      <div class="stream-card">
+        <div class="label">Carreira Suzano</div>
+        <div class="desc" id="careerTxt"></div>
+      </div>
+      <div class="stream-card">
+        <div class="label">Atman Biolab</div>
+        <div class="desc" id="atmanTxt"></div>
+      </div>
+      <div class="stream-card">
+        <div class="label">SaaS ERP p/ PMEs</div>
+        <div class="desc" id="saasTxt"></div>
+      </div>
+      <div class="stream-card">
+        <div class="label">Consultoria Financeira</div>
+        <div class="desc" id="consultTxt"></div>
+      </div>
+      <div class="stream-card">
+        <div class="label">Ação judicial</div>
+        <div class="desc" id="lawsuitTxt"></div>
+      </div>
+      <div class="stream-card">
+        <div class="label">CDI aplicado</div>
+        <div class="desc" id="cdiTxt"></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="section-title">Composição da renda recorrente, ano a ano</h2>
+    <p class="section-note">Como as quatro fontes de renda mensal se combinam ao longo da década, neste cenário.</p>
+    <div class="chart-card">
+      <canvas id="incomeChart" height="220"></canvas>
+    </div>
+    <div class="legend-row">
+      <span><i class="dot" style="background:#E0AD63"></i>Salário</span>
+      <span><i class="dot" style="background:#63AEA4"></i>Atman Biolab</span>
+      <span><i class="dot" style="background:#D07E5D"></i>SaaS ERP</span>
+      <span><i class="dot" style="background:#A493D1"></i>Consultoria Financeira</span>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="section-title">Trajetória de acumulação</h2>
+    <p class="section-note">Guardando 10% de Atman, SaaS e consultoria, mais uma fatia crescente do salário (10% → 30% a cada promoção), tudo aplicado a 100% do CDI.</p>
+    <div class="chart-card">
+      <canvas id="wealthChart" height="240"></canvas>
+    </div>
+    <div class="legend-row">
+      <span><i class="dot" style="background:#E0AD63"></i>Saldo acumulado</span>
+      <span><i class="dot" style="background:#B6BEC8"></i>Meta R$ 1 milhão</span>
+    </div>
+
+    <table class="milestones">
+      <thead>
+        <tr><th>Ano</th><th>Renda anual</th><th>Saldo acumulado</th></tr>
+      </thead>
+      <tbody id="milestonesBody"></tbody>
+    </table>
+  </section>
+
+  <section>
+    <h2 class="section-title">O que este cenário revela</h2>
+    <ul class="insight-list" id="insightList"></ul>
+  </section>
+
+  <section>
+    <h2 class="section-title">Próximos passos</h2>
+    <ol class="actions">
+      <li><b>Migrar o RDB/CDB para LCI/LCA equivalente.</b> Mesmo rendimento bruto, isento de IR — ganho de eficiência sem nenhum risco adicional, em qualquer cenário.</li>
+      <li><b>Definir o gatilho de migração da Atman para ME</b> com antecedência, para não ser pego de surpresa pelo desenquadramento automático do MEI.</li>
+      <li><b>Revisitar a projeção a cada promoção real.</b> Como a carreira é o maior driver em todos os cenários, cada novo nível salarial deve atualizar o modelo.</li>
+      <li><b>Validar o SaaS ERP internamente antes de comercializar</b>, usando a própria Atman como primeiro cliente real do produto.</li>
+      <li><b>Acompanhar o andamento da ação judicial</b> e substituir a estimativa pelo valor e data reais assim que definidos.</li>
+    </ol>
+  </section>
+
+  <section>
+    <h2 class="section-title">Premissas deste cenário</h2>
+    <div class="assumptions" id="assumptionsBox">
+      <h3>Vale revisar e ajustar conforme a realidade for se confirmando</h3>
+      <ul id="assumptionsList"></ul>
+    </div>
+  </section>
+
+  <footer>
+    Este material é uma ferramenta de planejamento e projeção, não uma recomendação de investimento. Rentabilidade passada não garante resultados futuros — revisite e ajuste as premissas periodicamente.
+  </footer>
+
+</div>
+
+<script>
+const scenarios = {"crise": {"label": "Crise", "career_txt": "Consultor por quase toda a década — Coordenador só no ano 4, sem chegar a Gerente Executivo", "atman_txt": "Trava na escala artesanal (teto R$100k/ano)", "saas_txt": "Nunca decola (R$0)", "consult_txt": "Não sai do papel (R$0)", "lawsuit_txt": "R$50 mil recebidos com atraso, em 2028 (processo lento, mas segue seu curso independente do resto)", "cdi_txt": "9% a.a. (CDI baixo)", "annual": [{"year": 1, "salary": 200000.0, "atman": 70172.62, "saas": 0, "consult": 0, "balance": 28031.61}, {"year": 2, "salary": 200000.0, "atman": 100000.0, "saas": 0, "consult": 0, "balance": 61772.7}, {"year": 3, "salary": 200000.0, "atman": 100000.0, "saas": 0, "consult": 0, "balance": 148550.49}, {"year": 4, "salary": 275000.0, "atman": 100000.0, "saas": 0, "consult": 0, "balance": 209683.91}, {"year": 5, "salary": 350000.0, "atman": 100000.0, "saas": 0, "consult": 0, "balance": 293593.48}, {"year": 6, "salary": 350000.0, "atman": 100000.0, "saas": 0, "consult": 0, "balance": 385054.91}, {"year": 7, "salary": 350000.0, "atman": 100000.0, "saas": 0, "consult": 0, "balance": 484747.86}, {"year": 8, "salary": 450000.0, "atman": 100000.0, "saas": 0, "consult": 0, "balance": 622686.22}, {"year": 9, "salary": 550000.0, "atman": 100000.0, "saas": 0, "consult": 0, "balance": 803600.97}, {"year": 10, "salary": 550000.0, "atman": 100000.0, "saas": 0, "consult": 0, "balance": 1000798.04}], "reach_months": 120, "final_balance": 1000798.04}, "conservador": {"label": "Conservador", "career_txt": "Coordenador ano 2 → Gerente ano 5,5 → Gerente Executivo ano 9", "atman_txt": "Para na terceirização (teto R$200k/ano), não chega à escala industrial", "saas_txt": "Decola com atraso, escala a 50% do previsto (~R$15k MRR no teto)", "consult_txt": "Escala a 70% do previsto (~R$4,2k/mês no teto)", "lawsuit_txt": "Não recebida", "cdi_txt": "9% a.a. (CDI baixo)", "annual": [{"year": 1, "salary": 200000.0, "atman": 70172.62, "saas": 0, "consult": 0, "balance": 28031.61}, {"year": 2, "salary": 200000.0, "atman": 100000.0, "saas": 0, "consult": 5775.0, "balance": 62364.31}, {"year": 3, "salary": 350000.0, "atman": 189118.3, "saas": 0, "consult": 18375.0, "balance": 144151.1}, {"year": 4, "salary": 350000.0, "atman": 200000.0, "saas": 0, "consult": 30975.0, "balance": 235782.73}, {"year": 5, "salary": 350000.0, "atman": 200000.0, "saas": 11000.0, "consult": 43575.0, "balance": 338099.23}, {"year": 6, "salary": 450000.0, "atman": 200000.0, "saas": 35000.0, "consult": 50400.0, "balance": 482114.28}, {"year": 7, "salary": 550000.0, "atman": 200000.0, "saas": 68166.67, "consult": 50400.0, "balance": 673089.13}, {"year": 8, "salary": 550000.0, "atman": 200000.0, "saas": 112166.67, "consult": 50400.0, "balance": 885830.39}, {"year": 9, "salary": 550000.0, "atman": 200000.0, "saas": 156166.67, "consult": 50400.0, "balance": 1122297.05}, {"year": 10, "salary": 900000.0, "atman": 200000.0, "saas": 180000.0, "consult": 50400.0, "balance": 1549055.78}], "reach_months": 102, "final_balance": 1549055.78}, "base": {"label": "Base", "career_txt": "Coordenador em 2027 → Gerente ano 5 → Gerente Executivo ano 8", "atman_txt": "Escala industrial completa (teto R$300k/ano) no ano 6", "saas_txt": "Ritmo previsto: R$8k MRR no ano 5, R$30k MRR a partir do ano 9", "consult_txt": "Ritmo previsto: estabiliza em R$6k/mês no ano 5", "lawsuit_txt": "R$50 mil recebidos em 2027", "cdi_txt": "~11,75% a.a. (médio)", "annual": [{"year": 1, "salary": 200000.0, "atman": 70172.62, "saas": 0, "consult": 0, "balance": 28335.01}, {"year": 2, "salary": 350000.0, "atman": 100000.0, "saas": 0, "consult": 8250.0, "balance": 148313.88}, {"year": 3, "salary": 350000.0, "atman": 189118.3, "saas": 0, "consult": 26250.0, "balance": 243614.44}, {"year": 4, "salary": 350000.0, "atman": 200000.0, "saas": 22000.0, "consult": 44250.0, "balance": 355476.03}, {"year": 5, "salary": 550000.0, "atman": 200000.0, "saas": 70000.0, "consult": 62250.0, "balance": 547964.17}, {"year": 6, "salary": 550000.0, "atman": 296333.33, "saas": 136333.33, "consult": 72000.0, "balance": 781180.01}, {"year": 7, "salary": 550000.0, "atman": 300000.0, "saas": 224333.33, "consult": 72000.0, "balance": 1051469.09}, {"year": 8, "salary": 900000.0, "atman": 300000.0, "saas": 312333.33, "consult": 72000.0, "balance": 1531225.42}, {"year": 9, "salary": 900000.0, "atman": 300000.0, "saas": 360000.0, "consult": 72000.0, "balance": 2072456.49}, {"year": 10, "salary": 900000.0, "atman": 300000.0, "saas": 360000.0, "consult": 72000.0, "balance": 2677282.22}], "reach_months": 82, "final_balance": 2677282.22}, "otimista": {"label": "Otimista", "career_txt": "Coordenador em 2027 → Gerente ano 4,5 → Gerente Executivo ano 6", "atman_txt": "Escala industrial adiantada (ano 4), 20% acima do teto previsto", "saas_txt": "Decola 6 meses adiantado, escala 20% acima do previsto", "consult_txt": "Escala 15% acima do previsto", "lawsuit_txt": "R$75 mil recebidos já em meados de 2027", "cdi_txt": "14,75% a.a. (CDI atual)", "annual": [{"year": 1, "salary": 200000.0, "atman": 70172.62, "saas": 0, "consult": 0, "balance": 28662.73}, {"year": 2, "salary": 350000.0, "atman": 139118.3, "saas": 0, "consult": 9487.5, "balance": 183923.59}, {"year": 3, "salary": 350000.0, "atman": 200000.0, "saas": 6000.0, "consult": 30187.5, "balance": 292133.86}, {"year": 4, "salary": 450000.0, "atman": 200000.0, "saas": 55200.0, "consult": 50887.5, "balance": 453308.0}, {"year": 5, "salary": 550000.0, "atman": 296333.33, "saas": 117800.0, "consult": 71587.5, "balance": 689051.6}, {"year": 6, "salary": 550000.0, "atman": 300000.0, "saas": 216400.0, "consult": 82800.0, "balance": 971680.62}, {"year": 7, "salary": 900000.0, "atman": 300000.0, "saas": 322000.0, "consult": 82800.0, "balance": 1477801.63}, {"year": 8, "salary": 900000.0, "atman": 300000.0, "saas": 416600.0, "consult": 82800.0, "balance": 2068714.6}, {"year": 9, "salary": 900000.0, "atman": 300000.0, "saas": 432000.0, "consult": 82800.0, "balance": 2748501.43}, {"year": 10, "salary": 900000.0, "atman": 300000.0, "saas": 432000.0, "consult": 82800.0, "balance": 3528556.81}], "reach_months": 73, "final_balance": 3528556.81}, "maximo": {"label": "Todos no máximo", "career_txt": "Coordenador em 6 meses → Gerente ano 2,5 → Gerente Executivo ano 4,5", "atman_txt": "Escala industrial já no ano 3, 50% acima do teto previsto", "saas_txt": "Decola 1 ano adiantado, escala 50% acima do previsto", "consult_txt": "Escala 30% acima do previsto", "lawsuit_txt": "R$100 mil recebidos já no início de 2027", "cdi_txt": "14,75% a.a. (CDI atual)", "annual": [{"year": 1, "salary": 275000.0, "atman": 70172.62, "saas": 0, "consult": 0, "balance": 151288.7}, {"year": 2, "salary": 350000.0, "atman": 189118.3, "saas": 0, "consult": 10725.0, "balance": 250771.68}, {"year": 3, "salary": 450000.0, "atman": 200000.0, "saas": 33000.0, "consult": 34125.0, "balance": 401671.05}, {"year": 4, "salary": 550000.0, "atman": 296333.33, "saas": 105000.0, "consult": 57525.0, "balance": 626939.32}, {"year": 5, "salary": 725000.0, "atman": 300000.0, "saas": 204500.0, "consult": 80925.0, "balance": 981220.1}, {"year": 6, "salary": 900000.0, "atman": 300000.0, "saas": 336500.0, "consult": 93600.0, "balance": 1491412.94}, {"year": 7, "salary": 900000.0, "atman": 300000.0, "saas": 468500.0, "consult": 93600.0, "balance": 2090929.45}, {"year": 8, "salary": 900000.0, "atman": 300000.0, "saas": 540000.0, "consult": 93600.0, "balance": 2786656.15}, {"year": 9, "salary": 900000.0, "atman": 300000.0, "saas": 540000.0, "consult": 93600.0, "balance": 3585002.55}, {"year": 10, "salary": 900000.0, "atman": 300000.0, "saas": 540000.0, "consult": 93600.0, "balance": 4501105.04}], "reach_months": 61, "final_balance": 4501105.04}};
+
+function fmt(v){ return 'R$ ' + Math.round(v).toLocaleString('pt-BR'); }
+
+Chart.defaults.font.family = "'IBM Plex Sans', sans-serif";
+Chart.defaults.color = '#8B93A0';
+
+let incomeChart, wealthChart;
+let currentKey = 'base';
+
+function renderScenario(key) {
+  currentKey = key;
+  const s = scenarios[key];
+  const annual = s.annual;
+
+  document.querySelectorAll('.scenario-tab').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.key === key);
+  });
+
+  // Hero stat
+  const heroBig = document.getElementById('heroBig');
+  const heroCaption = document.getElementById('heroCaption');
+  if (s.reach_months) {
+    heroBig.textContent = (s.reach_months/12).toFixed(1);
+    heroBig.classList.remove('miss');
+    heroCaption.textContent = 'anos até o primeiro milhão · cenário "' + s.label + '"';
+  } else {
+    heroBig.textContent = 'Não atinge';
+    heroBig.classList.add('miss');
+    heroCaption.textContent = 'R$1M não é alcançado em 10 anos neste cenário · saldo final: ' + fmt(s.final_balance);
+  }
+
+  // Stream cards
+  document.getElementById('careerTxt').textContent = s.career_txt;
+  document.getElementById('atmanTxt').textContent = s.atman_txt;
+  document.getElementById('saasTxt').textContent = s.saas_txt;
+  document.getElementById('consultTxt').textContent = s.consult_txt;
+  document.getElementById('lawsuitTxt').textContent = s.lawsuit_txt;
+  document.getElementById('cdiTxt').textContent = s.cdi_txt;
+
+  // Income chart
+  const labels = annual.map(d => 'Ano ' + d.year);
+  if (incomeChart) incomeChart.destroy();
+  incomeChart = new Chart(document.getElementById('incomeChart'), {
+    type: 'bar',
+    data: {
+      labels,
+      datasets: [
+        { label:'Salário', data: annual.map(d=>d.salary), backgroundColor:'#E0AD63', stack:'s' },
+        { label:'Atman', data: annual.map(d=>d.atman), backgroundColor:'#63AEA4', stack:'s' },
+        { label:'SaaS ERP', data: annual.map(d=>d.saas), backgroundColor:'#D07E5D', stack:'s' },
+        { label:'Consultoria', data: annual.map(d=>d.consult), backgroundColor:'#A493D1', stack:'s' }
+      ]
+    },
+    options: {
+      responsive:true,
+      plugins:{ legend:{display:false}, tooltip:{ callbacks:{ label: ctx => ctx.dataset.label + ': ' + fmt(ctx.raw) } } },
+      scales:{
+        x:{ stacked:true, grid:{display:false}, ticks:{font:{size:11}} },
+        y:{ stacked:true, grid:{color:'#3A4453'}, ticks:{ callback:v=>'R$'+(v/1000)+'k', font:{size:11} } }
+      }
+    }
+  });
+
+  // Wealth chart
+  if (wealthChart) wealthChart.destroy();
+  wealthChart = new Chart(document.getElementById('wealthChart'), {
+    type: 'line',
+    data: {
+      labels,
+      datasets: [
+        { label: s.label, data: annual.map(d=>d.balance), borderColor:'#E0AD63', backgroundColor:'#E0AD63', tension:0.3, pointRadius:3, borderWidth:2.4 },
+        { label:'Meta', data: labels.map(()=>1000000), borderColor:'#B6BEC8', borderDash:[5,5], pointRadius:0, borderWidth:1.4 }
+      ]
+    },
+    options: {
+      responsive:true,
+      plugins:{ legend:{display:false}, tooltip:{ callbacks:{ label: ctx => ctx.dataset.label + ': ' + fmt(ctx.raw) } } },
+      scales:{
+        x:{ grid:{display:false}, ticks:{font:{size:11}} },
+        y:{ grid:{color:'#3A4453'}, ticks:{ callback:v=>'R$'+(v/1000)+'k', font:{size:11} } }
+      }
+    }
+  });
+
+  // Milestones table
+  const tbody = document.getElementById('milestonesBody');
+  tbody.innerHTML = '';
+  annual.forEach(d => {
+    const total = d.salary + d.atman + d.saas + d.consult;
+    const tr = document.createElement('tr');
+    if (d.balance >= 1000000) tr.classList.add('hit');
+    tr.innerHTML = `<td>Ano ${d.year}</td><td>${fmt(total)}</td><td>${fmt(d.balance)}</td>`;
+    tbody.appendChild(tr);
+  });
+
+  // Insights (dynamic)
+  const insightList = document.getElementById('insightList');
+  insightList.innerHTML = '';
+  const yr10 = annual[9].balance;
+  const multiple = (yr10/1000000).toFixed(1);
+  const dominant = ['salary','atman','saas','consult'].reduce((a,b)=> annual[9][a] > annual[9][b] ? a : b);
+  const dominantLabel = {salary:'a carreira', atman:'a Atman', saas:'o SaaS ERP', consult:'a consultoria financeira'}[dominant];
+
+  const items = [];
+  if (s.reach_months) {
+    items.push(`<li><b>A meta de R$1M é atingida em ${(s.reach_months/12).toFixed(1)} anos</b> neste cenário.</li>`);
+  } else {
+    items.push(`<li class="caution"><b>A meta de R$1M não é atingida dentro de 10 anos</b> neste cenário — o saldo final fica em ${fmt(yr10)}.</li>`);
+  }
+  items.push(`<li><b>No ano 10, o saldo é ${fmt(yr10)}</b> — ${multiple}x a meta original de R$1M.</li>`);
+  items.push(`<li><b>${dominantLabel.charAt(0).toUpperCase()+dominantLabel.slice(1)} é o maior componente de renda</b> no ano 10 deste cenário.</li>`);
+  items.push(`<li class="caution"><b>Atenção ao teto do MEI.</b> O plano assume que a Atman migra para Microempresa (ME) quando ultrapassa R$81 mil/ano — o teto real do MEI, não os R$100 mil+ usados como referência de longo prazo.</li>`);
+  insightList.innerHTML = items.join('');
+
+  // Assumptions (dynamic)
+  const assumptionsList = document.getElementById('assumptionsList');
+  assumptionsList.innerHTML = `
+    <li><b>Carreira:</b> ${s.career_txt}. Poupança escalonada: 10% (Consultor) → 15% (Coordenador) → 20% (Gerente) → 30% (Gerente Executivo).</li>
+    <li><b>Atman Biolab:</b> ${s.atman_txt}. Poupança de 10% sobre a receita.</li>
+    <li><b>SaaS ERP:</b> ${s.saas_txt}. Poupança de 10% sobre a receita.</li>
+    <li><b>Consultoria Financeira:</b> ${s.consult_txt}. Poupança de 10% sobre a receita.</li>
+    <li><b>Ação judicial:</b> ${s.lawsuit_txt}, injetada diretamente na reserva (fora do fluxo mensal de 10%).</li>
+    <li><b>CDI aplicado:</b> ${s.cdi_txt}, via LCI/LCA equivalente (isento de Imposto de Renda).</li>
+    <li>Não considera a compra do imóvel (objetivo financeiro separado), inflação, impostos sobre a renda do trabalho, ou aportes extraordinários além dos já listados.</li>
+  `;
+}
+
+const tabsContainer = document.getElementById('scenarioTabs');
+Object.keys(scenarios).forEach(key => {
+  const btn = document.createElement('button');
+  btn.className = 'scenario-tab';
+  btn.dataset.key = key;
+  btn.textContent = scenarios[key].label;
+  btn.addEventListener('click', () => renderScenario(key));
+  tabsContainer.appendChild(btn);
+});
+
+renderScenario('base');
+</script>
+
+</body>
+</html>
