@@ -452,8 +452,8 @@
     <div class="wrap" style="padding-top:32px;">
       <button class="backlink" onclick="showView('home')">← Central de Planos</button>
       <p class="eyebrow">Plano Atman · Motor 2</p>
-      <h1 class="title" style="font-size:32px;">Crescimento calibrado com Sebrae + pares do setor</h1>
-      <p class="hero-sub">Cinco intensidades de crescimento, todas com desaceleração realista embutida.</p>
+      <h1 class="title" style="font-size:32px;">Plano de negócios operacional</h1>
+      <p class="hero-sub">Crescimento calibrado, estrutura societária e o plano de contratação que permite equilibrar a Atman com o cargo CLT na Suzano.</p>
     </div>
 
     <section>
@@ -481,7 +481,7 @@
 
     <section>
       <h2 class="section-title">DRE — cenário calibrado (Base)</h2>
-      <p class="section-note">Anos 1-2: receita real, margem estimada pelos percentuais de custo já usados na precificação da Atman. Anos 3-10: curva recalibrada, com a mesma estrutura de custos evoluindo por escala.</p>
+      <p class="section-note">CMV recalibrado com piso mais realista: 31% no ano 1 caindo até 22% no ano 10 — não os 16% do business case original. Terceirização de produção reduz custo com escala, mas o fornecedor contratado também tem margem própria; esse piso não desaparece.</p>
       <div class="chart-card">
         <canvas id="atmanDreChart" height="220"></canvas>
       </div>
@@ -489,6 +489,84 @@
         <thead><tr><th>Ano</th><th>Receita</th><th>CMV</th><th>Margem bruta</th><th>EBITDA</th></tr></thead>
         <tbody id="atmanDreBody"></tbody>
       </table>
+    </section>
+
+    <section>
+      <h2 class="section-title">Estrutura societária e tributária, por gatilho de receita</h2>
+      <p class="section-note">Cada faixa do Simples Nacional muda a carga tributária e as obrigações — vale planejar a transição antes de ultrapassar o teto, não depois.</p>
+      <div class="timeline">
+        <div class="timeline-item">
+          <div class="timeline-marker">até R$81k/ano</div>
+          <div class="timeline-content">
+            <b>MEI</b>
+            <p>Regime atual. Cruzado já no ano 2 (R$100k) — migração para ME deve ser planejada com antecedência.</p>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-marker">R$81k–360k/ano</div>
+          <div class="timeline-content">
+            <b>ME (Microempresa) — Simples Nacional</b>
+            <p>Faixa dos anos 2-4 no cenário Base. Permite contratar funcionários formalmente — condição para a primeira contratação.</p>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-marker">R$360k–4,8M/ano</div>
+          <div class="timeline-content">
+            <b>EPP (Empresa de Pequeno Porte) — Simples Nacional</b>
+            <p>A partir do ano 4 no cenário Base. Cobre toda a década no Base e Conservador; nos cenários Otimista/Máximo, o teto de R$4,8M é cruzado entre os anos 7-9 — aí exige avaliar Lucro Presumido.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2 class="section-title">Plano de contratação e delegação</h2>
+      <p class="section-note">Marcos de quando cada posição-chave precisa entrar, atrelados aos gatilhos de receita do cenário Base — o ponto onde você deixa de conseguir tocar tudo sozinho fora do horário da Suzano.</p>
+      <div class="timeline">
+        <div class="timeline-item">
+          <div class="timeline-marker">Anos 1-3<br>até R$200k</div>
+          <div class="timeline-content">
+            <b>Fundador solo + terceirização de produção</b>
+            <p>Gerenciável nas noites/fins de semana. Produção já terceirizada a partir do ano 3, mas gestão, marketing e vendas seguem 100% com você.</p>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-marker">Ano 4<br>~R$360k</div>
+          <div class="timeline-content">
+            <b>1ª contratação: Assistente de Operações (PJ ou meio período)</b>
+            <p>Absorve tarefas repetitivas (atendimento, logística, controle de estoque) — libera seu tempo para decisões estratégicas.</p>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-marker">Anos 5-6<br>R$576k–835k</div>
+          <div class="timeline-content">
+            <b>Gerente de Produção (full-time) + agência/freelancer de marketing</b>
+            <p>Este é o ponto de virada real: acima disso, tentar operar sozinho nas horas vagas da Suzano deixa de ser sustentável.</p>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-marker">Ano 7<br>~R$1,13M</div>
+          <div class="timeline-content">
+            <b>Gerente Geral / Head de Operações</b>
+            <p>Você sai do dia a dia operacional. Seu papel vira supervisão estratégica — o mesmo músculo que o PDI já está treinando na Suzano (Líder Estratégico).</p>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-marker">Anos 8-10<br>R$1,4M+</div>
+          <div class="timeline-content">
+            <b>Time por função (vendas, marketing, financeiro)</b>
+            <p>Estrutura de liderança plena. Seu papel se aproxima de dono estratégico/conselho — compatível com o cargo de Gerente Executivo na Suzano nesse mesmo período.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2 class="section-title">Compliance com a Suzano</h2>
+      <ul class="insight-list">
+        <li class="caution"><b>Checar o código de conduta sobre negócio próprio/conflito de interesse</b> — especialmente ao subir para Gerente e Gerente Executivo, quando a visibilidade do cargo aumenta. Segmentos diferentes (cosméticos vs. celulose/suprimentos) tornam conflito real improvável, mas divulgação formal pode ser exigida.</li>
+        <li><b>O risco não modelado no painel:</b> o crescimento de receita está projetado, mas o custo e o tempo de estruturar a contratação não estão. Atraso na contratação trava o crescimento mesmo com demanda — vale tratar cada gatilho de contratação acima como prioridade, não como "quando sobrar tempo".</li>
+      </ul>
     </section>
 
     <section>
@@ -867,7 +945,7 @@ function initCarreira() {
 }
 
 function initAtman() {
-  const dre = [{"receita": 70172.62, "cmv": 21753.51, "margem": 48419.11, "ebitda": 32981.13}, {"receita": 100000.0, "cmv": 25000.0, "margem": 75000.0, "ebitda": 56000.0}, {"receita": 200000, "cmv": 46000.0, "margem": 154000.0, "ebitda": 100000.0}, {"receita": 360000, "cmv": 79200.0, "margem": 280800.0, "ebitda": 192600.0}, {"receita": 576000, "cmv": 120960.0, "margem": 455040.0, "ebitda": 328320.0}, {"receita": 835200, "cmv": 167040.0, "margem": 668160.0, "ebitda": 501120.0}, {"receita": 1127520, "cmv": 214228.8, "margem": 913291.2, "ebitda": 704700.0}, {"receita": 1409400, "cmv": 253692.0, "margem": 1155708.0, "ebitda": 916110.0}, {"receita": 1691280, "cmv": 287517.6, "margem": 1403762.4, "ebitda": 1141614.0}, {"receita": 1944972, "cmv": 311195.52, "margem": 1633776.48, "ebitda": 1351755.54}];
+  const dre = [{"receita": 70172.62, "cmv": 21753.51, "margem": 48419.11, "ebitda": 32981.13}, {"receita": 100000.0, "cmv": 28000.0, "margem": 72000.0, "ebitda": 52000.0}, {"receita": 200000, "cmv": 54000.0, "margem": 146000.0, "ebitda": 108000.0}, {"receita": 360000, "cmv": 93600.0, "margem": 266400.0, "ebitda": 201600.0}, {"receita": 576000, "cmv": 144000.0, "margem": 432000.0, "ebitda": 334080.0}, {"receita": 835200, "cmv": 200448.0, "margem": 634752.0, "ebitda": 501120.0}, {"receita": 1127520, "cmv": 270604.8, "margem": 856915.2, "ebitda": 676512.0}, {"receita": 1409400, "cmv": 324162.0, "margem": 1085238.0, "ebitda": 873828.0}, {"receita": 1691280, "cmv": 388994.4, "margem": 1302285.6, "ebitda": 1048593.6}, {"receita": 1944972, "cmv": 427893.84, "margem": 1517078.16, "ebitda": 1244782.08}];
   const labels = dre.map((d,i) => 'Ano ' + (i+1));
   function fmtA(v){ return 'R$ ' + Math.round(v).toLocaleString('pt-BR'); }
   new Chart(document.getElementById('atmanDreChart'), {
