@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Plano Patrimonial · 10 Anos</title>
+<title>Central de Planos · Bruno Marques</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
@@ -18,9 +18,16 @@
   .wrap{max-width:880px;margin:0 auto;padding:0 20px 80px;}
   .eyebrow{font-family:'IBM Plex Mono', monospace;font-size:12px;letter-spacing:0.14em;text-transform:uppercase;color:var(--brass);margin:0 0 10px;}
   h1,h2,h3{font-family:'Fraunces', serif;font-weight:500;margin:0;color:#DCD7CA;}
-  header.hero{padding:48px 0 32px;border-bottom:1px solid var(--line);position:sticky;top:0;background:var(--ink);z-index:10;}
+  header.hero{padding:48px 0 32px;border-bottom:1px solid var(--line);}
   h1.title{font-size:clamp(26px,6.5vw,40px);line-height:1.1;letter-spacing:-0.01em;}
   .hero-sub{margin-top:14px;max-width:60ch;color:var(--text-soft);font-size:14.5px;}
+
+  .backlink{
+    display:inline-flex;align-items:center;gap:6px;font-family:'IBM Plex Mono',monospace;
+    font-size:12.5px;color:var(--text-soft);text-decoration:none;cursor:pointer;
+    margin-bottom:18px;border:none;background:none;padding:0;
+  }
+  .backlink:hover{color:var(--brass);}
 
   .scenario-tabs{display:flex;gap:8px;flex-wrap:wrap;margin-top:20px;}
   .scenario-tab{
@@ -54,10 +61,10 @@
   .legend-row span{display:inline-flex;align-items:center;gap:6px;}
   .dot{width:9px;height:9px;border-radius:50%;display:inline-block;}
 
-  table.milestones{width:100%;border-collapse:collapse;margin-top:18px;font-family:'IBM Plex Mono',monospace;font-size:13px;}
-  table.milestones th, table.milestones td{padding:10px 8px;text-align:right;border-bottom:1px solid var(--line);}
+  table.milestones{width:100%;border-collapse:collapse;margin-top:18px;font-family:'IBM Plex Mono',monospace;font-size:12.5px;}
+  table.milestones th, table.milestones td{padding:9px 7px;text-align:right;border-bottom:1px solid var(--line);}
   table.milestones th:first-child, table.milestones td:first-child{text-align:left;color:var(--text-soft);}
-  table.milestones th{font-family:'IBM Plex Sans',sans-serif;font-weight:600;font-size:12px;color:var(--text-soft);text-transform:uppercase;letter-spacing:0.04em;}
+  table.milestones th{font-family:'IBM Plex Sans',sans-serif;font-weight:600;font-size:11.5px;color:var(--text-soft);text-transform:uppercase;letter-spacing:0.03em;}
   table.milestones tr.hit td{color:var(--brass);font-weight:600;}
 
   .insight-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:14px;}
@@ -65,6 +72,8 @@
   .insight-list li b{color:#DCD7CA;}
   .insight-list li.caution{border-left-color:var(--rust);}
   .insight-list li.caution b{color:var(--rust);}
+  .insight-list li.open{border-left-color:var(--violet);}
+  .insight-list li.open b{color:var(--violet);}
 
   ol.actions{margin:0;padding-left:0;list-style:none;counter-reset:step;display:flex;flex-direction:column;gap:16px;}
   ol.actions li{counter-increment:step;position:relative;padding-left:44px;font-size:14.5px;}
@@ -77,10 +86,114 @@
   .assumptions li{margin-bottom:6px;}
 
   footer{padding:32px 0 0;color:var(--text-soft);font-size:12px;}
+
+  /* Home screen */
+  .home-grid{display:grid;grid-template-columns:1fr;gap:14px;margin-top:28px;}
+  .home-card{
+    display:block;background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);
+    padding:22px;cursor:pointer;transition:border-color .15s ease, transform .15s ease;text-align:left;
+    width:100%;color:var(--text);
+  }
+  .home-card:hover{border-color:var(--brass);transform:translateY(-2px);}
+  .home-card .eyebrow-sm{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:var(--brass);margin-bottom:8px;}
+  .home-card h3{font-size:19px;margin-bottom:6px;color:#DCD7CA;}
+  .home-card p{font-size:13.5px;color:var(--text-soft);margin:0;max-width:60ch;}
+  .home-card .arrow{float:right;color:var(--text-soft);font-family:'IBM Plex Mono',monospace;}
+
+  .view{display:none;}
+  .view.active{display:block;}
+
+  /* Content-specific helpers reused across career/atman/saas/consult pages */
+  .timeline{display:flex;flex-direction:column;gap:0;margin-top:16px;}
+  .timeline-item{display:flex;gap:16px;padding:16px 0;border-bottom:1px solid var(--line);}
+  .timeline-item:last-child{border-bottom:none;}
+  .timeline-marker{
+    font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--brass);
+    min-width:88px;padding-top:2px;
+  }
+  .timeline-content b{display:block;color:#DCD7CA;font-size:15px;margin-bottom:4px;}
+  .timeline-content p{margin:0 0 6px;font-size:13.5px;color:var(--text-soft);}
+  .pill-row{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px;}
+  .pill{
+    font-family:'IBM Plex Mono',monospace;font-size:11px;background:var(--ink-2);
+    border:1px solid var(--line);color:var(--text-soft);border-radius:20px;padding:3px 10px;
+  }
+  .two-col{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:8px;}
+  @media (max-width:640px){.two-col{grid-template-columns:1fr;}}
+  .metric-card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:16px;}
+  .metric-card .k{font-family:'IBM Plex Mono',monospace;font-size:10.5px;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-soft);}
+  .metric-card .v{font-family:'Fraunces',serif;font-size:26px;color:var(--brass);margin-top:6px;}
+  .metric-card .sub{font-size:12px;color:var(--text-soft);margin-top:4px;}
+
+  table.simple{width:100%;border-collapse:collapse;margin-top:14px;font-size:13px;}
+  table.simple th, table.simple td{padding:9px 8px;text-align:right;border-bottom:1px solid var(--line);}
+  table.simple th:first-child, table.simple td:first-child{text-align:left;color:var(--text-soft);}
+  table.simple th{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--text-soft);text-transform:uppercase;letter-spacing:0.03em;}
+
+  .fair-card{background:var(--panel);border:1px solid var(--line);border-left:3px solid var(--teal);border-radius:0 10px 10px 0;padding:14px 16px;margin-bottom:10px;}
+  .fair-card b{color:#DCD7CA;display:block;margin-bottom:3px;}
+  .fair-card span.when{font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:var(--teal);}
+  .fair-card p{margin:6px 0 0;font-size:13px;color:var(--text-soft);}
 </style>
 </head>
 <body>
-<div class="wrap">
+<div class="wrap" id="app">
+
+  <div id="view-home" class="view active">
+    <header class="hero">
+      <p class="eyebrow">Central de Planos · Bruno Marques · 2026–2036</p>
+      <h1 class="title">Cinco frentes,<br>um plano de vida financeira.</h1>
+      <p class="hero-sub">Cada motor de renda tem seu próprio plano de ação. O Plano Patrimonial mostra onde tudo se encontra.</p>
+    </header>
+
+    <section style="border-bottom:none;">
+      <div class="home-grid">
+        <button class="home-card" onclick="showView('patrimonial')">
+          <span class="arrow">→</span>
+          <div class="eyebrow-sm">Visão consolidada</div>
+          <h3>Plano Patrimonial</h3>
+          <p>Os 5 cenários de acumulação, de Crise a Todos no Máximo — renda, trajetória e renda passiva segura projetada.</p>
+        </button>
+
+        <button class="home-card" onclick="showView('carreira')">
+          <span class="arrow">→</span>
+          <div class="eyebrow-sm">Motor 1 · Carreira Suzano</div>
+          <h3>Plano de Carreira</h3>
+          <p>PDI 2026-2027, trilhas de evolução e o plano de cursos/especializações pra cada nível — Coordenador, Gerente, Gerente Executivo.</p>
+        </button>
+
+        <button class="home-card" onclick="showView('atman')">
+          <span class="arrow">→</span>
+          <div class="eyebrow-sm">Motor 2 · Atman Biolab</div>
+          <h3>Plano Atman</h3>
+          <p>DRE projetada, inovação e P&D, feiras a mapear e a busca por um oceano azul no mercado de personal care artesanal.</p>
+        </button>
+
+        <button class="home-card" onclick="showView('saas')">
+          <span class="arrow">→</span>
+          <div class="eyebrow-sm">Motor 3 · SaaS ERP</div>
+          <h3>Plano SaaS ERP</h3>
+          <p>Validação de mercado, posicionamento contra Bling/Omie/Tiny, MVP a partir do Atman ERP e roadmap de clientes.</p>
+        </button>
+
+        <button class="home-card" onclick="showView('consultoria')">
+          <span class="arrow">→</span>
+          <div class="eyebrow-sm">Motor 4 · Consultoria Financeira</div>
+          <h3>Plano Consultoria Financeira</h3>
+          <p>Regras da CVM, CFP como caminho de certificação, posicionamento e formato de atuação.</p>
+        </button>
+      </div>
+    </section>
+
+    <footer>
+      Central de planos pessoal — não é um documento corporativo nem uma recomendação de investimento. Revisite e ajuste conforme a realidade for se confirmando.
+    </footer>
+  </div>
+
+  <div id="view-patrimonial" class="view">
+    <div class="wrap" style="padding-top:32px;">
+      <button class="backlink" onclick="showView('home')">← Central de Planos</button>
+    </div>
 
   <header class="hero">
     <p class="eyebrow">Plano Patrimonial · Bruno Marques · 2026–2036</p>
@@ -187,10 +300,417 @@
     Este material é uma ferramenta de planejamento e projeção, não uma recomendação de investimento. Rentabilidade passada não garante resultados futuros — revisite e ajuste as premissas periodicamente.
   </footer>
 
+
+  </div>
+
+  <div id="view-carreira" class="view">
+    <div class="wrap" style="padding-top:32px;">
+      <button class="backlink" onclick="showView('home')">← Central de Planos</button>
+      <p class="eyebrow">Plano de Carreira · Motor 1</p>
+      <h1 class="title" style="font-size:32px;">Consultor → Coordenador → Gerente → Gerente Executivo</h1>
+      <p class="hero-sub">Baseado no PDI 2026-2027 (Conversa de Carreira Executiva, jun/2026) e na trajetória salarial do Plano Patrimonial.</p>
+    </div>
+
+    <section>
+      <h2 class="section-title">Onde você está</h2>
+      <p class="section-note">17+ anos de experiência (Telefónica, SIG Combibloc, GOL, MBRF, Suzano). Na Suzano desde 2021, hoje como Consultor de Suprimentos.</p>
+      <div class="two-col">
+        <div class="metric-card">
+          <div class="k">Evolução SOMMOS (score)</div>
+          <div class="v">105</div>
+          <div class="sub">2025 — acima do esperado (referência: 111)</div>
+        </div>
+        <div class="metric-card">
+          <div class="k">Maior salto 2024→2025</div>
+          <div class="v">+16 pts</div>
+          <div class="sub">"Gente que Inspira": 84 → 100</div>
+        </div>
+      </div>
+      <div class="chart-card">
+        <canvas id="sommosChart" height="200"></canvas>
+      </div>
+    </section>
+
+    <section>
+      <h2 class="section-title">Pontos fortes e oportunidades (PDI 2026)</h2>
+      <div class="two-col">
+        <div class="stream-card">
+          <div class="label">Pontos fortes</div>
+          <div class="desc">
+            Alta densidade analítica com orientação a valor · Capacidade de estruturar o caos · Liderança sem cargo · Visão estratégica de organização · Plasticidade comportamental
+          </div>
+        </div>
+        <div class="stream-card">
+          <div class="label">Oportunidades de desenvolvimento</div>
+          <div class="desc">
+            Externalização de valor · Escala de influência (local → organizacional) · Refinamento político
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2 class="section-title">Onde você quer chegar</h2>
+      <p class="section-note">A jornada declarada no PDI, da atuação técnica à liderança organizacional.</p>
+      <div class="timeline">
+        <div class="timeline-item">
+          <div class="timeline-marker">HOJE</div>
+          <div class="timeline-content">
+            <b>Líder Técnico</b>
+            <p>Resolve problemas, executa transformação, gera insight.</p>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-marker">CURTO PRAZO</div>
+          <div class="timeline-content">
+            <b>Líder Estratégico</b>
+            <p>Influencia pessoas, define prioridades, gera direção.</p>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-marker">MÉDIO-LONGO</div>
+          <div class="timeline-content">
+            <b>Líder Organizacional</b>
+            <p>Conecta pessoas, lidera transformação, move a organização.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2 class="section-title">Plano de desenvolvimento por nível</h2>
+      <p class="section-note">Cursos, especializações e atividades recomendadas para sustentar cada promoção assumida no Plano Patrimonial — ajuste as datas conforme a realidade avançar.</p>
+
+      <div class="timeline">
+        <div class="timeline-item">
+          <div class="timeline-marker">2026–2027<br>→ Coordenador</div>
+          <div class="timeline-content">
+            <b>Consolidar a trilha de Performance, Mercado e Digital (#1) ou Digital Transformation (#3)</b>
+            <p>Ambas conectam com seu perfil analítico e já têm tração no PDI.</p>
+            <div class="pill-row">
+              <span class="pill">Certificação avançada em Power BI / Data Analytics</span>
+              <span class="pill">Curso de Comunicação Executiva e Narrativa de Dados</span>
+              <span class="pill">Mentoria em Negociação Avançada</span>
+              <span class="pill">Projeto visível de digitalização S2P/S2C (trilha #3)</span>
+            </div>
+            <p style="margin-top:10px;">Foco direto na oportunidade "externalização de valor" — o gargalo não é gerar insight, é fazer o insight chegar e ser reconhecido em nível executivo.</p>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-marker">~2030–2031<br>→ Gerente</div>
+          <div class="timeline-content">
+            <b>Formalizar a transição de Líder Técnico para Líder Estratégico</b>
+            <p>Este é o salto que mais precisa de credencial formal + exposição multissetorial.</p>
+            <div class="pill-row">
+              <span class="pill">MBA ou pós em Gestão Estratégica / Liderança</span>
+              <span class="pill">Certificação CSCP (ASCM/APICS) — Supply Chain Professional</span>
+              <span class="pill">Atuação em projeto cross-funcional de escala organizacional</span>
+              <span class="pill">Programa de desenvolvimento de lideranças da Suzano (se disponível)</span>
+            </div>
+            <p style="margin-top:10px;">Ataca diretamente "escala de influência (local → organizacional)" — sair da liderança sem cargo pra liderança formal com mandato mais amplo.</p>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-marker">~2033–2034<br>→ Gerente Executivo</div>
+          <div class="timeline-content">
+            <b>Consolidar Líder Organizacional</b>
+            <p>Nesse ponto, o desenvolvimento técnico já não é o gargalo — é influência, rede e visão de negócio ampla.</p>
+            <div class="pill-row">
+              <span class="pill">Advanced Management Program (Insper, FDC ou internacional)</span>
+              <span class="pill">Board readiness / conselho consultivo</span>
+              <span class="pill">Expandir atuação em agendas globais (trilha #7 — Pegasus/UNBC)</span>
+              <span class="pill">Continuar mentoria/voluntariado como vitrine de liderança (Cidadão Pró Mundo)</span>
+            </div>
+            <p style="margin-top:10px;">"Refinamento político" se torna a competência central — não é sobre aprender mais, é sobre navegar melhor.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2 class="section-title">As 7 trilhas do PDI (alinhamento de carreira)</h2>
+      <p class="section-note">Onde você acredita que pode contribuir, alinhando as necessidades da Suzano às suas ambições.</p>
+      <div class="stream-grid">
+        <div class="stream-card"><div class="label">#1 · Performance, Mercado e Digital</div><div class="desc">Liderança da agenda de performance, integração entre áreas, analytics de mercado, comunicação executiva.</div></div>
+        <div class="stream-card"><div class="label">#2 · Control Tower de Materiais</div><div class="desc">Orquestração ponta a ponta da cadeia, integração S&OP/S&OE, redução de vazamentos de valor.</div></div>
+        <div class="stream-card"><div class="label">#3 · Supply Chain Digital Transformation</div><div class="desc">Orquestração da transformação digital do CoE, digitalização S2P/S2C/CLM.</div></div>
+        <div class="stream-card"><div class="label">#4 · Governança, Processos e RSM</div><div class="desc">Governança de Suprimentos com foco em risco, compliance e sustentabilidade.</div></div>
+        <div class="stream-card"><div class="label">#5 · Gestão de Contratos</div><div class="desc">Gestão ativa de contratos (CLM), captura de valor e melhoria contínua.</div></div>
+        <div class="stream-card"><div class="label">#6 · Coord/Lateral/Consultor II — PFIN</div><div class="desc">Análises de produtividade, business cases, CAPEX/OPEX, narrativa financeira.</div></div>
+        <div class="stream-card"><div class="label">#7 · Coord/Lateral/Consultor — UNBC/Pegasus</div><div class="desc">Integração global, governança multinacional, supply chain analytics.</div></div>
+      </div>
+    </section>
+
+    <footer>
+      Baseado no documento PDI 2026 – Conversa de Carreira Executiva (jun/2026). Revisite a cada ciclo de PDI.
+    </footer>
+  </div>
+
+  <div id="view-atman" class="view">
+    <div class="wrap" style="padding-top:32px;">
+      <button class="backlink" onclick="showView('home')">← Central de Planos</button>
+      <p class="eyebrow">Plano Atman · Motor 2</p>
+      <h1 class="title" style="font-size:32px;">Crescimento calibrado com Sebrae + pares do setor</h1>
+      <p class="hero-sub">Cinco intensidades de crescimento, todas com desaceleração realista embutida.</p>
+    </div>
+
+    <section>
+      <h2 class="section-title">Por que calibrar</h2>
+      <ul class="insight-list">
+        <li class="caution"><b>Mortalidade do setor:</b> 27,3% das indústrias de transformação no Brasil fecham em até 5 anos (Sebrae, Sobrevivência de Empresas 2020) — crescimento suave e sem risco de execução não é realista.</li>
+        <li><b>Peer benchmark — marcas indie de beleza:</b> crescem em ritmo de dois ou três dígitos nos primeiros anos (casos de até 659% ano-sobre-ano já registrados no setor), mas desaceleram conforme amadurecem, convergindo para o crescimento estrutural do mercado de beleza D2C brasileiro (~8-11% a.a.).</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2 class="section-title">Uma metodologia, cinco intensidades</h2>
+      <p class="section-note">Todos os 5 cenários do Plano Patrimonial usam a mesma lógica de calibração (crescimento forte que desacelera) — variando só o quão forte é a largada e o quão alto é o teto de desaceleração.</p>
+      <table class="simple">
+        <thead><tr><th>Cenário</th><th>Crescimento ano 3</th><th>Desacelera até (ano 10)</th><th>Receita ano 10</th></tr></thead>
+        <tbody>
+          <tr><td>Crise</td><td>—</td><td>trava em R$100k/ano</td><td>R$100k</td></tr>
+          <tr><td>Conservador</td><td>+70%</td><td>+9% a.a.</td><td>R$700k</td></tr>
+          <tr><td>Base</td><td>+100%</td><td>+15% a.a.</td><td>R$1,94M</td></tr>
+          <tr><td>Otimista</td><td>+160%</td><td>+22% a.a.</td><td>R$5,64M</td></tr>
+          <tr><td>Todos no máximo</td><td>+180%</td><td>+26% a.a.</td><td>R$9,42M</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section>
+      <h2 class="section-title">DRE — cenário calibrado (Base)</h2>
+      <p class="section-note">Anos 1-2: receita real, margem estimada pelos percentuais de custo já usados na precificação da Atman. Anos 3-10: curva recalibrada, com a mesma estrutura de custos evoluindo por escala.</p>
+      <div class="chart-card">
+        <canvas id="atmanDreChart" height="220"></canvas>
+      </div>
+      <table class="simple">
+        <thead><tr><th>Ano</th><th>Receita</th><th>CMV</th><th>Margem bruta</th><th>EBITDA</th></tr></thead>
+        <tbody id="atmanDreBody"></tbody>
+      </table>
+    </section>
+
+    <section>
+      <h2 class="section-title">Buscando o oceano azul</h2>
+      <ul class="insight-list">
+        <li><b>Posicionamento sugerido: rituais de autocuidado para quem trabalha muito.</b> Sono, desaceleração e reset diário como categoria, não "cosmético natural" genérico.</li>
+        <li><b>Amarrar a linha numa narrativa única de rotina</b> — do reset matinal ao ritual noturno — em vez de comunicar os produtos como itens avulsos.</li>
+        <li>O ticket médio já praticado é compatível com posicionamento de bem-estar premium — evitar concorrer no oceano vermelho de "cosmético natural" genérico e barato.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2 class="section-title">Feiras a mapear</h2>
+      <div class="fair-card">
+        <b>NaturalTech</b> <span class="when">Junho</span>
+        <p>Cosméticos naturais, alimentos saudáveis e terapias naturais.</p>
+      </div>
+      <div class="fair-card">
+        <b>in-cosmetics Latin America</b> <span class="when">23–24 set/2026 · Expo Center Norte, SP</span>
+        <p>Matérias-primas e inovação — mapear fornecedores para a fase de terceirização.</p>
+      </div>
+      <div class="fair-card">
+        <b>Beauty Fair</b> <span class="when">Anual · São Paulo</span>
+        <p>Maior plataforma de negócios e educação em beleza da América Latina.</p>
+      </div>
+      <div class="fair-card">
+        <b>FCE Cosmétique</b> <span class="when">Anual</span>
+        <p>Cobre toda a cadeia produtiva — relevante para a transição pra escala industrial.</p>
+      </div>
+      <div class="fair-card">
+        <b>Cosmoprof (Bologna / North America)</b> <span class="when">Internacional</span>
+        <p>Horizonte de exportação de longo prazo.</p>
+      </div>
+    </section>
+
+    <footer>
+      Curva calibrada com dados do Sebrae (Sobrevivência de Empresas 2020) e benchmark de crescimento de marcas indie de beleza no Brasil.
+    </footer>
+  </div>
+
+  <div id="view-saas" class="view">
+    <div class="wrap" style="padding-top:32px;">
+      <button class="backlink" onclick="showView('home')">← Central de Planos</button>
+      <p class="eyebrow">Plano SaaS ERP · Motor 3</p>
+      <h1 class="title" style="font-size:32px;">Do Atman ERP interno a um SaaS para fabricantes artesanais</h1>
+      <p class="hero-sub">Ficha técnica, custo médio ponderado e controle de produção — o que os ERPs genéricos não fazem bem, e os ERPs industriais fazem caro demais para quem está começando.</p>
+    </div>
+
+    <section>
+      <h2 class="section-title">O mercado, resumido</h2>
+      <div class="two-col">
+        <div class="metric-card">
+          <div class="k">PMEs que já usam algum ERP</div>
+          <div class="v">71%</div>
+          <div class="sub">Sebrae, Pesquisa Maturidade Digital 2025</div>
+        </div>
+        <div class="metric-card">
+          <div class="k">Trocaram de ERP por arrependimento</div>
+          <div class="v">34%</div>
+          <div class="sub">nos últimos 2 anos — fricção real e recorrente</div>
+        </div>
+      </div>
+      <table class="simple">
+        <thead><tr><th>Concorrente</th><th>Foco</th><th>Preço real/mês</th></tr></thead>
+        <tbody>
+          <tr><td>Bling</td><td>E-commerce/marketplace</td><td>R$250–800</td></tr>
+          <tr><td>Tiny</td><td>E-commerce + estoque</td><td>R$280–750</td></tr>
+          <tr><td>Conta Azul</td><td>Financeiro + contador</td><td>R$220–650</td></tr>
+          <tr><td>Omie</td><td>PME média (5+ funcionários)</td><td>R$450–1.800</td></tr>
+          <tr><td>WebMais / CIGAM / Maxiprod</td><td>Indústria estabelecida (cosméticos/química)</td><td>Sob consulta — venda consultiva, enterprise</td></tr>
+        </tbody>
+      </table>
+      <p class="section-note" style="margin-top:14px;">Nenhum dos 4 primeiros resolve ficha técnica de produção de verdade. Os 3 últimos resolvem, mas são construídos pra indústria já estabelecida — não pra quem está começando a fabricar.</p>
+    </section>
+
+    <section>
+      <h2 class="section-title">Onde entra o produto</h2>
+      <ul class="insight-list">
+        <li><b>Nicho: MEI/ME que fabricam</b> (cosméticos, alimentos artesanais, artesanato) e hoje usam planilha — sem ficha técnica de custo, sem controle de lote.</li>
+        <li><b>Preço de referência: R$127/mês</b> — abaixo do plano de entrada de qualquer ERP genérico "sério", acima de zero (planilha), com ficha técnica que nenhum deles tem nessa faixa de preço.</li>
+        <li class="caution"><b>Risco principal: concorrência genérica pode copiar a função básica.</b> Bling/Omie/Tiny adicionando um campo simples de "ficha técnica" já reduz a diferenciação — é o cenário "Concorrência erode" do Plano Patrimonial.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2 class="section-title">MVP a partir do Atman ERP</h2>
+      <p class="section-note">O Atman ERP já roda internamente (React + Supabase, 6 módulos). Migrar de single-tenant para multi-tenant é o passo técnico central.</p>
+      <div class="timeline">
+        <div class="timeline-item">
+          <div class="timeline-marker">FASE 1</div>
+          <div class="timeline-content">
+            <b>Validação interna (anos 1-3)</b>
+            <p>Continuar rodando na Atman, refinando ficha técnica, custo médio ponderado e controle de lote com dados reais de produção.</p>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-marker">FASE 2</div>
+          <div class="timeline-content">
+            <b>Migração multi-tenant + primeiros clientes piloto</b>
+            <p>Reescrever a camada de dados para isolar cada empresa cliente, manter só os módulos essenciais no MVP: Estoque, Produção (ficha técnica) e Financeiro básico.</p>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-marker">FASE 3</div>
+          <div class="timeline-content">
+            <b>Escala via nicho</b>
+            <p>Distribuição via feiras (mesmas do Plano Atman — NaturalTech, Beauty Fair), comunidades de MEI fabricante, e parcerias com contadores que atendem esse público.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2 class="section-title">Trajetória de clientes (cenário Base)</h2>
+      <div class="chart-card">
+        <canvas id="saasChart" height="220"></canvas>
+      </div>
+      <p class="section-note" style="margin-top:10px;">550 clientes pagantes até o ano 10, a R$127/mês — o cenário central do Plano Patrimonial. Veja os cenários Conservador/Otimista/Máximo no Plano Patrimonial para a faixa completa.</p>
+    </section>
+
+    <footer>
+      Este plano evolui junto com a validação real — cada cliente piloto deve substituir uma suposição por um dado.
+    </footer>
+  </div>
+
+  <div id="view-consultoria" class="view">
+    <div class="wrap" style="padding-top:32px;">
+      <button class="backlink" onclick="showView('home')">← Central de Planos</button>
+      <p class="eyebrow">Plano Consultoria Financeira · Motor 4</p>
+      <h1 class="title" style="font-size:32px;">De consultor de suprimentos a consultor financeiro pessoal</h1>
+      <p class="hero-sub">Aproveitando o mesmo raciocínio analítico usado no Plano Patrimonial — mas primeiro, as regras do jogo.</p>
+    </div>
+
+    <section>
+      <h2 class="section-title">O que pode e o que precisa de registro</h2>
+      <ul class="insight-list">
+        <li><b>Planejamento financeiro pessoal não é regulado no Brasil.</b> Orçamento, organização de fluxo de caixa, educação financeira, definição de metas — pode atuar livremente, sem registro na CVM.</li>
+        <li class="caution"><b>Recomendar produtos de investimento específicos exige registro na CVM</b> como Consultor de Valores Mobiliários (RCVM 19/2021) — isso inclui dizer "compre este CDB" ou "aloque X% em Tesouro Y".</li>
+        <li><b>A certificação CFP (Planejar) é o caminho mais direto.</b> Está no Anexo A da RCVM 19 — quem tem CFP simplifica o processo de registro como consultor CVM, sem exame regulatório adicional.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2 class="section-title">Caminho recomendado</h2>
+      <div class="timeline">
+        <div class="timeline-item">
+          <div class="timeline-marker">FASE 1</div>
+          <div class="timeline-content">
+            <b>Começar como planejador financeiro pessoal</b>
+            <p>Sem necessidade de registro — orçamento, organização financeira, definição de metas, educação financeira. É essencialmente o que este próprio Plano Patrimonial já demonstra saber fazer.</p>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-marker">FASE 2</div>
+          <div class="timeline-content">
+            <b>Avaliar a certificação CFP</b>
+            <p>Se a demanda validar e fizer sentido recomendar produtos específicos (CDB, Tesouro, fundos), a CFP é o caminho que já resolve o requisito de registro CVM junto.</p>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-marker">FASE 3</div>
+          <div class="timeline-content">
+            <b>Formalizar registro CVM (se necessário)</b>
+            <p>Só se o modelo de negócio exigir recomendação direta de produtos — caso contrário, o escopo de "planejador" já sustenta boa parte do serviço.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2 class="section-title">Público-alvo natural</h2>
+      <ul class="insight-list">
+        <li><b>Colegas executivos e profissionais de carreira corporativa</b> — mesmo perfil do próprio fundador: renda alta, pouca organização financeira, decisões de carreira e patrimônio acontecendo ao mesmo tempo.</li>
+        <li><b>O próprio Plano Patrimonial é a prova de conceito</b> — um dashboard de cenários que qualquer profissional em ascensão salarial entenderia de forma imediata.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2 class="section-title">Formato de atuação</h2>
+      <div class="stream-grid">
+        <div class="stream-card">
+          <div class="label">Sessões avulsas</div>
+          <div class="desc">Diagnóstico + plano inicial, indicado para quem quer organizar o momento atual sem compromisso recorrente.</div>
+        </div>
+        <div class="stream-card">
+          <div class="label">Assinatura mensal</div>
+          <div class="desc">Acompanhamento contínuo, revisão trimestral de metas — modelo mais alinhado ao teto de R$6k/mês assumido no Plano Patrimonial.</div>
+        </div>
+        <div class="stream-card">
+          <div class="label">Produto replicável</div>
+          <div class="desc">Transformar a lógica do dashboard patrimonial em um template reutilizável para clientes — aproveita diretamente a experiência com o SaaS ERP.</div>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      Antes de aceitar o primeiro cliente pagante, confirmar com um advogado ou a própria Planejar se o escopo específico exige registro.
+    </footer>
+  </div>
+
 </div>
 
 <script>
-const scenarios = {"crise": {"label": "Crise", "career_txt": "Consultor por quase toda a década — Coordenador só no ano 4, sem chegar a Gerente Executivo", "atman_txt": "Trava na escala artesanal (teto R$100k/ano)", "saas_txt": "Nunca encontra product-market fit — trava em ~5 clientes piloto (R$127/mês) a vida toda", "consult_txt": "Não sai do papel (R$0)", "lawsuit_txt": "R$50 mil recebidos com atraso, em 2028", "cdi_txt": "9% a.a. (CDI baixo)", "annual": [{"year": 1, "salary": 200000.0, "atman": 70172.62, "saas": 0.0, "consult": 0, "balance": 28031.61, "renda_segura": 223.53}, {"year": 2, "salary": 200000.0, "atman": 100000.0, "saas": 0.0, "consult": 0, "balance": 61772.7, "renda_segura": 492.58}, {"year": 3, "salary": 200000.0, "atman": 100000.0, "saas": 4127.5, "consult": 0, "balance": 148974.35, "renda_segura": 1187.94}, {"year": 4, "salary": 275000.0, "atman": 100000.0, "saas": 10096.5, "consult": 0, "balance": 211193.17, "renda_segura": 1684.08}, {"year": 5, "salary": 350000.0, "atman": 100000.0, "saas": 12192.0, "consult": 0, "balance": 296507.28, "renda_segura": 2364.39}, {"year": 6, "salary": 350000.0, "atman": 100000.0, "saas": 9715.5, "consult": 0, "balance": 389245.35, "renda_segura": 3103.9}, {"year": 7, "salary": 350000.0, "atman": 100000.0, "saas": 7620.0, "consult": 0, "balance": 490108.39, "renda_segura": 3908.19}, {"year": 8, "salary": 450000.0, "atman": 100000.0, "saas": 7620.0, "consult": 0, "balance": 629322.13, "renda_segura": 5018.3}, {"year": 9, "salary": 550000.0, "atman": 100000.0, "saas": 7620.0, "consult": 0, "balance": 811627.06, "renda_segura": 6472.03}, {"year": 10, "salary": 550000.0, "atman": 100000.0, "saas": 7620.0, "consult": 0, "balance": 1010339.43, "renda_segura": 8056.59}], "reach_months": 120, "final_balance": 1010339.43}, "conservador": {"label": "Conservador", "career_txt": "Coordenador ano 2 → Gerente ano 5,5 → Gerente Executivo ano 9", "atman_txt": "Para na terceirização (teto R$200k/ano), não chega à escala industrial", "saas_txt": "Valida o nicho, mas concorrentes genéricos (Bling/Omie/Tiny) copiam a função básica e saturam em ~110 clientes (R$127/mês) a partir do ano 7", "consult_txt": "Escala a 70% do previsto (~R$4,2k/mês no teto)", "lawsuit_txt": "R$50 mil recebidos em 2027", "cdi_txt": "9% a.a. (CDI baixo)", "annual": [{"year": 1, "salary": 200000.0, "atman": 70172.62, "saas": 0.0, "consult": 0, "balance": 28031.61, "renda_segura": 223.53}, {"year": 2, "salary": 200000.0, "atman": 100000.0, "saas": 0.0, "consult": 5775.0, "balance": 112364.31, "renda_segura": 896.01}, {"year": 3, "salary": 350000.0, "atman": 189118.3, "saas": 8255.0, "consult": 18375.0, "balance": 199498.81, "renda_segura": 1590.83}, {"year": 4, "salary": 350000.0, "atman": 200000.0, "saas": 40005.0, "consult": 30975.0, "balance": 300240.76, "renda_segura": 2394.16}, {"year": 5, "salary": 350000.0, "atman": 200000.0, "saas": 93980.0, "consult": 43575.0, "balance": 416966.03, "renda_segura": 3324.95}, {"year": 6, "salary": 450000.0, "atman": 200000.0, "saas": 138430.0, "consult": 50400.0, "balance": 578837.29, "renda_segura": 4615.73}, {"year": 7, "salary": 550000.0, "atman": 200000.0, "saas": 160655.0, "consult": 50400.0, "balance": 788162.97, "renda_segura": 6284.92}, {"year": 8, "salary": 550000.0, "atman": 200000.0, "saas": 167640.0, "consult": 50400.0, "balance": 1017066.13, "renda_segura": 8110.23}, {"year": 9, "salary": 550000.0, "atman": 200000.0, "saas": 167640.0, "consult": 50400.0, "balance": 1266570.57, "renda_segura": 10099.81}, {"year": 10, "salary": 900000.0, "atman": 200000.0, "saas": 167640.0, "consult": 50400.0, "balance": 1705027.73, "renda_segura": 13596.13}], "reach_months": 96, "final_balance": 1705027.73}, "base": {"label": "Base", "career_txt": "Coordenador em 2027 → Gerente ano 5 → Gerente Executivo ano 8", "atman_txt": "Escala industrial completa (teto R$300k/ano) no ano 6", "saas_txt": "Nicho de fabricantes artesanais valida moderadamente: cresce até 550 clientes pagantes (R$127/mês) no ano 10", "consult_txt": "Ritmo previsto: estabiliza em R$6k/mês no ano 5", "lawsuit_txt": "R$50 mil recebidos em 2027", "cdi_txt": "~11,75% a.a. (médio)", "annual": [{"year": 1, "salary": 200000.0, "atman": 70172.62, "saas": 0.0, "consult": 0, "balance": 28335.01, "renda_segura": 225.95}, {"year": 2, "salary": 350000.0, "atman": 100000.0, "saas": 0.0, "consult": 8250.0, "balance": 148313.88, "renda_segura": 1182.68}, {"year": 3, "salary": 350000.0, "atman": 189118.3, "saas": 8255.0, "consult": 26250.0, "balance": 244468.76, "renda_segura": 1949.43}, {"year": 4, "salary": 350000.0, "atman": 200000.0, "saas": 48260.0, "consult": 44250.0, "balance": 359182.77, "renda_segura": 2864.17}, {"year": 5, "salary": 550000.0, "atman": 200000.0, "saas": 158750.0, "consult": 62250.0, "balance": 561348.8, "renda_segura": 4476.27}, {"year": 6, "salary": 550000.0, "atman": 296333.33, "saas": 335915.0, "consult": 72000.0, "balance": 817042.21, "renda_segura": 6515.21}, {"year": 7, "salary": 550000.0, "atman": 300000.0, "saas": 525780.0, "consult": 72000.0, "balance": 1123188.82, "renda_segura": 8956.47}, {"year": 8, "salary": 900000.0, "atman": 300000.0, "saas": 675640.0, "consult": 72000.0, "balance": 1649587.38, "renda_segura": 13154.04}, {"year": 9, "salary": 900000.0, "atman": 300000.0, "saas": 764540.0, "consult": 72000.0, "balance": 2247255.92, "renda_segura": 17919.93}, {"year": 10, "salary": 900000.0, "atman": 300000.0, "saas": 817245.0, "consult": 72000.0, "balance": 2920713.91, "renda_segura": 23290.18}], "reach_months": 80, "final_balance": 2920713.91}, "otimista": {"label": "Otimista", "career_txt": "Coordenador em 2027 → Gerente ano 4,5 → Gerente Executivo ano 6", "atman_txt": "Escala industrial adiantada (ano 4), 20% acima do teto previsto", "saas_txt": "Nicho valida fortemente: 880 clientes pagantes (R$127/mês) até o ano 10, crescimento consistente desde o ano 4", "consult_txt": "Escala 15% acima do previsto", "lawsuit_txt": "R$75 mil recebidos já em meados de 2027", "cdi_txt": "14,75% a.a. (CDI atual)", "annual": [{"year": 1, "salary": 200000.0, "atman": 70172.62, "saas": 0.0, "consult": 0, "balance": 28662.73, "renda_segura": 228.56}, {"year": 2, "salary": 350000.0, "atman": 139118.3, "saas": 0.0, "consult": 9487.5, "balance": 183923.59, "renda_segura": 1466.63}, {"year": 3, "salary": 350000.0, "atman": 200000.0, "saas": 12382.5, "consult": 30187.5, "balance": 292816.7, "renda_segura": 2334.96}, {"year": 4, "salary": 450000.0, "atman": 200000.0, "saas": 76517.5, "consult": 50887.5, "balance": 456313.54, "renda_segura": 3638.71}, {"year": 5, "salary": 550000.0, "atman": 296333.33, "saas": 237490.0, "consult": 71587.5, "balance": 705094.76, "renda_segura": 5622.52}, {"year": 6, "salary": 550000.0, "atman": 300000.0, "saas": 525145.0, "consult": 82800.0, "balance": 1022702.89, "renda_segura": 8155.18}, {"year": 7, "salary": 900000.0, "atman": 300000.0, "saas": 850900.0, "consult": 82800.0, "balance": 1592484.8, "renda_segura": 12698.7}, {"year": 8, "salary": 900000.0, "atman": 300000.0, "saas": 1097915.0, "consult": 82800.0, "balance": 2272768.92, "renda_segura": 18123.38}, {"year": 9, "salary": 900000.0, "atman": 300000.0, "saas": 1246505.0, "consult": 82800.0, "balance": 3069344.47, "renda_segura": 24475.38}, {"year": 10, "salary": 900000.0, "atman": 300000.0, "saas": 1320165.0, "consult": 82800.0, "balance": 3991340.48, "renda_segura": 31827.51}], "reach_months": 72, "final_balance": 3991340.48}, "maximo": {"label": "Todos no máximo", "career_txt": "Coordenador em 6 meses → Gerente ano 2,5 → Gerente Executivo ano 4,5", "atman_txt": "Escala industrial já no ano 3, 50% acima do teto previsto", "saas_txt": "Nicho validado ao máximo: 1.050 clientes pagantes (R$127/mês) até o ano 10, expansão além do nicho original", "consult_txt": "Escala 30% acima do previsto", "lawsuit_txt": "R$100 mil recebidos já no início de 2027", "cdi_txt": "14,75% a.a. (CDI atual)", "annual": [{"year": 1, "salary": 275000.0, "atman": 70172.62, "saas": 0.0, "consult": 0, "balance": 151288.7, "renda_segura": 1206.4}, {"year": 2, "salary": 350000.0, "atman": 189118.3, "saas": 0.0, "consult": 10725.0, "balance": 250771.68, "renda_segura": 1999.69}, {"year": 3, "salary": 450000.0, "atman": 200000.0, "saas": 16510.0, "consult": 34125.0, "balance": 399963.71, "renda_segura": 3189.37}, {"year": 4, "salary": 550000.0, "atman": 296333.33, "saas": 96520.0, "consult": 57525.0, "balance": 624015.68, "renda_segura": 4975.99}, {"year": 5, "salary": 725000.0, "atman": 300000.0, "saas": 317500.0, "consult": 80925.0, "balance": 989700.53, "renda_segura": 7892.01}, {"year": 6, "salary": 900000.0, "atman": 300000.0, "saas": 663575.0, "consult": 93600.0, "balance": 1535705.88, "renda_segura": 12245.93}, {"year": 7, "salary": 900000.0, "atman": 300000.0, "saas": 1003300.0, "consult": 93600.0, "balance": 2198551.63, "renda_segura": 17531.56}, {"year": 8, "salary": 900000.0, "atman": 300000.0, "saas": 1266825.0, "consult": 93600.0, "balance": 2987349.37, "renda_segura": 23821.54}, {"year": 9, "salary": 900000.0, "atman": 300000.0, "saas": 1454150.0, "consult": 93600.0, "balance": 3912554.68, "renda_segura": 31199.26}, {"year": 10, "salary": 900000.0, "atman": 300000.0, "saas": 1565275.0, "consult": 93600.0, "balance": 4986165.31, "renda_segura": 39760.38}], "reach_months": 61, "final_balance": 4986165.31}};
+function showView(name) {
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  document.getElementById('view-' + name).classList.add('active');
+  window.scrollTo(0,0);
+  if (!window.__initialized) window.__initialized = {};
+  if (!window.__initialized[name]) {
+    window.__initialized[name] = true;
+    if (name === 'patrimonial') initPatrimonial();
+    if (name === 'carreira') initCarreira();
+    if (name === 'atman') initAtman();
+    if (name === 'saas') initSaas();
+  }
+}
+
+Chart.defaults.font.family = "'IBM Plex Sans', sans-serif";
+Chart.defaults.color = '#8B93A0';
+
+function initPatrimonial() {
+const scenarios = {"crise": {"label": "Crise", "career_txt": "Consultor por quase toda a década — Coordenador só no ano 4, sem chegar a Gerente Executivo", "atman_txt": "Reflete o risco real de mortalidade do setor (27,3% das indústrias de transformação fecham em 5 anos, Sebrae) — nunca escala além do artesanal (R$100k/ano)", "saas_txt": "Nunca encontra product-market fit — trava em ~5 clientes piloto (R$127/mês) a vida toda", "consult_txt": "Não sai do papel (R$0)", "lawsuit_txt": "R$50 mil recebidos com atraso, em 2028", "cdi_txt": "9% a.a. (CDI baixo)", "annual": [{"year": 1, "salary": 200000.0, "atman": 70172.62, "saas": 0.0, "consult": 0, "balance": 28031.61, "renda_segura": 223.53}, {"year": 2, "salary": 200000.0, "atman": 100000.0, "saas": 0.0, "consult": 0, "balance": 61772.7, "renda_segura": 492.58}, {"year": 3, "salary": 200000.0, "atman": 100000.0, "saas": 4127.5, "consult": 0, "balance": 148974.35, "renda_segura": 1187.94}, {"year": 4, "salary": 275000.0, "atman": 100000.0, "saas": 10096.5, "consult": 0, "balance": 211193.17, "renda_segura": 1684.08}, {"year": 5, "salary": 350000.0, "atman": 100000.0, "saas": 12192.0, "consult": 0, "balance": 296507.28, "renda_segura": 2364.39}, {"year": 6, "salary": 350000.0, "atman": 100000.0, "saas": 9715.5, "consult": 0, "balance": 389245.35, "renda_segura": 3103.9}, {"year": 7, "salary": 350000.0, "atman": 100000.0, "saas": 7620.0, "consult": 0, "balance": 490108.39, "renda_segura": 3908.19}, {"year": 8, "salary": 450000.0, "atman": 100000.0, "saas": 7620.0, "consult": 0, "balance": 629322.13, "renda_segura": 5018.3}, {"year": 9, "salary": 550000.0, "atman": 100000.0, "saas": 7620.0, "consult": 0, "balance": 811627.06, "renda_segura": 6472.03}, {"year": 10, "salary": 550000.0, "atman": 100000.0, "saas": 7620.0, "consult": 0, "balance": 1010339.43, "renda_segura": 8056.59}], "reach_months": 120, "final_balance": 1010339.43}, "conservador": {"label": "Conservador", "career_txt": "Coordenador ano 2 → Gerente ano 5,5 → Gerente Executivo ano 9", "atman_txt": "Crescimento calibrado conservador: parte de +70% (ano 3) e desacelera até +9% a.a. — perto do teto do crescimento estrutural do mercado de beleza D2C", "saas_txt": "Valida o nicho, mas concorrentes genéricos (Bling/Omie/Tiny) copiam a função básica e saturam em ~110 clientes (R$127/mês) a partir do ano 7", "consult_txt": "Escala a 70% do previsto (~R$4,2k/mês no teto)", "lawsuit_txt": "R$50 mil recebidos em 2027", "cdi_txt": "9% a.a. (CDI baixo)", "annual": [{"year": 1, "salary": 200000.0, "atman": 70172.62, "saas": 0.0, "consult": 0, "balance": 28031.61, "renda_segura": 223.53}, {"year": 2, "salary": 200000.0, "atman": 100000.0, "saas": 0.0, "consult": 5775.0, "balance": 112364.31, "renda_segura": 896.01}, {"year": 3, "salary": 350000.0, "atman": 170000.0, "saas": 8255.0, "consult": 18375.0, "balance": 197549.85, "renda_segura": 1575.29}, {"year": 4, "salary": 350000.0, "atman": 255000.0, "saas": 40005.0, "consult": 30975.0, "balance": 303839.74, "renda_segura": 2422.86}, {"year": 5, "salary": 350000.0, "atman": 344250.0, "saas": 93980.0, "consult": 43575.0, "balance": 435899.69, "renda_segura": 3475.93}, {"year": 6, "salary": 450000.0, "atman": 430312.5, "saas": 138430.0, "consult": 50400.0, "balance": 623441.49, "renda_segura": 4971.41}, {"year": 7, "salary": 550000.0, "atman": 507768.75, "saas": 160655.0, "consult": 50400.0, "balance": 868808.21, "renda_segura": 6928.0}, {"year": 8, "salary": 550000.0, "atman": 578856.38, "saas": 167640.0, "consult": 50400.0, "balance": 1144393.55, "renda_segura": 9125.55}, {"year": 9, "salary": 550000.0, "atman": 642530.58, "saas": 167640.0, "consult": 50400.0, "balance": 1451407.55, "renda_segura": 11573.73}, {"year": 10, "salary": 900000.0, "atman": 700358.33, "saas": 167640.0, "consult": 50400.0, "balance": 1958567.74, "renda_segura": 15617.89}], "reach_months": 90, "final_balance": 1958567.74}, "base": {"label": "Base", "career_txt": "Coordenador em 2027 → Gerente ano 5 → Gerente Executivo ano 8", "atman_txt": "Crescimento calibrado central: +100% no ano 3, desacelerando para +15% a.a. no ano 10 — ritmo forte de marca indie bem-sucedida, sem sustentar saltos de centenas de % por anos seguidos", "saas_txt": "Nicho de fabricantes artesanais valida moderadamente: cresce até 550 clientes pagantes (R$127/mês) no ano 10", "consult_txt": "Ritmo previsto: estabiliza em R$6k/mês no ano 5", "lawsuit_txt": "R$50 mil recebidos em 2027", "cdi_txt": "~11,75% a.a. (médio)", "annual": [{"year": 1, "salary": 200000.0, "atman": 70172.62, "saas": 0.0, "consult": 0, "balance": 28335.01, "renda_segura": 225.95}, {"year": 2, "salary": 350000.0, "atman": 100000.0, "saas": 0.0, "consult": 8250.0, "balance": 148313.88, "renda_segura": 1182.68}, {"year": 3, "salary": 350000.0, "atman": 200000.0, "saas": 8255.0, "consult": 26250.0, "balance": 245667.32, "renda_segura": 1958.99}, {"year": 4, "salary": 350000.0, "atman": 360000.0, "saas": 48260.0, "consult": 44250.0, "balance": 377366.54, "renda_segura": 3009.17}, {"year": 5, "salary": 550000.0, "atman": 576000.0, "saas": 158750.0, "consult": 62250.0, "balance": 621253.48, "renda_segura": 4953.96}, {"year": 6, "salary": 550000.0, "atman": 835200.0, "saas": 335915.0, "consult": 72000.0, "balance": 940736.14, "renda_segura": 7501.56}, {"year": 7, "salary": 550000.0, "atman": 1127520.0, "saas": 525780.0, "consult": 72000.0, "balance": 1348535.94, "renda_segura": 10753.41}, {"year": 8, "salary": 900000.0, "atman": 1409400.0, "saas": 675640.0, "consult": 72000.0, "balance": 2018207.55, "renda_segura": 16093.47}, {"year": 9, "salary": 900000.0, "atman": 1691280.0, "saas": 764540.0, "consult": 72000.0, "balance": 2805659.33, "renda_segura": 22372.72}, {"year": 10, "salary": 900000.0, "atman": 1944972.0, "saas": 817245.0, "consult": 72000.0, "balance": 3717908.12, "renda_segura": 29647.12}], "reach_months": 74, "final_balance": 3717908.12}, "otimista": {"label": "Otimista", "career_txt": "Coordenador em 2027 → Gerente ano 4,5 → Gerente Executivo ano 6", "atman_txt": "Crescimento calibrado otimista: +160% no ano 3, desacelerando para +22% a.a. — acima da mediana de mercado, mas ainda com desaceleração realista", "saas_txt": "Nicho valida fortemente: 880 clientes pagantes (R$127/mês) até o ano 10, crescimento consistente desde o ano 4", "consult_txt": "Escala 15% acima do previsto", "lawsuit_txt": "R$75 mil recebidos já em meados de 2027", "cdi_txt": "14,75% a.a. (CDI atual)", "annual": [{"year": 1, "salary": 200000.0, "atman": 70172.62, "saas": 0.0, "consult": 0, "balance": 28662.73, "renda_segura": 228.56}, {"year": 2, "salary": 350000.0, "atman": 100000.0, "saas": 0.0, "consult": 9487.5, "balance": 179922.18, "renda_segura": 1434.72}, {"year": 3, "salary": 350000.0, "atman": 260000.0, "saas": 12382.5, "consult": 30187.5, "balance": 294620.63, "renda_segura": 2349.35}, {"year": 4, "salary": 450000.0, "atman": 572000.0, "saas": 76517.5, "consult": 50887.5, "balance": 498035.97, "renda_segura": 3971.41}, {"year": 5, "salary": 550000.0, "atman": 1086800.0, "saas": 237490.0, "consult": 71587.5, "balance": 837254.2, "renda_segura": 6676.38}, {"year": 6, "salary": 550000.0, "atman": 1793220.0, "saas": 525145.0, "consult": 82800.0, "balance": 1333521.95, "renda_segura": 10633.69}, {"year": 7, "salary": 900000.0, "atman": 2653965.6, "saas": 850900.0, "consult": 82800.0, "balance": 2200064.81, "renda_segura": 17543.63}, {"year": 8, "salary": 900000.0, "atman": 3609393.22, "saas": 1097915.0, "consult": 82800.0, "balance": 3322723.57, "renda_segura": 26495.86}, {"year": 9, "salary": 900000.0, "atman": 4620023.32, "saas": 1246505.0, "consult": 82800.0, "balance": 4734649.65, "renda_segura": 37754.76}, {"year": 10, "salary": 900000.0, "atman": 5636428.45, "saas": 1320165.0, "consult": 82800.0, "balance": 6471101.58, "renda_segura": 51601.47}], "reach_months": 65, "final_balance": 6471101.58}, "maximo": {"label": "Todos no máximo", "career_txt": "Coordenador em 6 meses → Gerente ano 2,5 → Gerente Executivo ano 4,5", "atman_txt": "Crescimento calibrado máximo: +180% no ano 3, desacelerando para +26% a.a. — teto superior plausível, ainda com desaceleração embutida", "saas_txt": "Nicho validado ao máximo: 1.050 clientes pagantes (R$127/mês) até o ano 10, expansão além do nicho original", "consult_txt": "Escala 30% acima do previsto", "lawsuit_txt": "R$100 mil recebidos já no início de 2027", "cdi_txt": "14,75% a.a. (CDI atual)", "annual": [{"year": 1, "salary": 275000.0, "atman": 70172.62, "saas": 0.0, "consult": 0, "balance": 151288.7, "renda_segura": 1206.4}, {"year": 2, "salary": 350000.0, "atman": 100000.0, "saas": 0.0, "consult": 10725.0, "balance": 241338.93, "renda_segura": 1924.47}, {"year": 3, "salary": 450000.0, "atman": 280000.0, "saas": 16510.0, "consult": 34125.0, "balance": 397667.03, "renda_segura": 3171.05}, {"year": 4, "salary": 550000.0, "atman": 672000.0, "saas": 96520.0, "consult": 57525.0, "balance": 661448.61, "renda_segura": 5274.48}, {"year": 5, "salary": 725000.0, "atman": 1377600.0, "saas": 317500.0, "consult": 80925.0, "balance": 1147518.93, "renda_segura": 9150.48}, {"year": 6, "salary": 900000.0, "atman": 2452128.0, "saas": 663575.0, "consult": 93600.0, "balance": 1946203.27, "renda_segura": 15519.3}, {"year": 7, "salary": 900000.0, "atman": 3874362.24, "saas": 1003300.0, "consult": 93600.0, "balance": 3050597.69, "renda_segura": 24325.89}, {"year": 8, "salary": 900000.0, "atman": 5579081.63, "saas": 1266825.0, "consult": 93600.0, "balance": 4527782.88, "renda_segura": 36105.18}, {"year": 9, "salary": 900000.0, "atman": 7475969.38, "saas": 1454150.0, "consult": 93600.0, "balance": 6445106.85, "renda_segura": 51394.19}, {"year": 10, "salary": 900000.0, "atman": 9419721.42, "saas": 1565275.0, "consult": 93600.0, "balance": 8864363.09, "renda_segura": 70685.68}], "reach_months": 58, "final_balance": 8864363.09}};
 
 function fmt(v){ return 'R$ ' + Math.round(v).toLocaleString('pt-BR'); }
 
@@ -330,6 +850,56 @@ Object.keys(scenarios).forEach(key => {
 });
 
 renderScenario('base');
+
+}
+
+function initCarreira() {
+  const labels = [2022, 2023, 2024, 2025];
+  new Chart(document.getElementById('sommosChart'), {
+    type: 'bar',
+    data: { labels, datasets: [
+        { label:'Entregas', data: [116, 99, 100, 105], backgroundColor:'#E0AD63' },
+        { label:'Referência/Score', data: [111, 100, 108, 111], type:'line', borderColor:'#63AEA4', backgroundColor:'#63AEA4', tension:0.3, pointRadius:4 }
+      ] },
+    options: { responsive:true, plugins:{ legend:{display:true, labels:{color:'#8B93A0', font:{size:11}}} },
+      scales:{ x:{ grid:{display:false} }, y:{ grid:{color:'#3A4453'} } } }
+  });
+}
+
+function initAtman() {
+  const dre = [{"receita": 70172.62, "cmv": 21753.51, "margem": 48419.11, "ebitda": 32981.13}, {"receita": 100000.0, "cmv": 25000.0, "margem": 75000.0, "ebitda": 56000.0}, {"receita": 200000, "cmv": 46000.0, "margem": 154000.0, "ebitda": 100000.0}, {"receita": 360000, "cmv": 79200.0, "margem": 280800.0, "ebitda": 192600.0}, {"receita": 576000, "cmv": 120960.0, "margem": 455040.0, "ebitda": 328320.0}, {"receita": 835200, "cmv": 167040.0, "margem": 668160.0, "ebitda": 501120.0}, {"receita": 1127520, "cmv": 214228.8, "margem": 913291.2, "ebitda": 704700.0}, {"receita": 1409400, "cmv": 253692.0, "margem": 1155708.0, "ebitda": 916110.0}, {"receita": 1691280, "cmv": 287517.6, "margem": 1403762.4, "ebitda": 1141614.0}, {"receita": 1944972, "cmv": 311195.52, "margem": 1633776.48, "ebitda": 1351755.54}];
+  const labels = dre.map((d,i) => 'Ano ' + (i+1));
+  function fmtA(v){ return 'R$ ' + Math.round(v).toLocaleString('pt-BR'); }
+  new Chart(document.getElementById('atmanDreChart'), {
+    type: 'bar',
+    data: { labels, datasets: [
+        { label:'Receita', data: dre.map(d=>d.receita), backgroundColor:'#63AEA4' },
+        { label:'EBITDA', data: dre.map(d=>d.ebitda), backgroundColor:'#E0AD63' }
+      ] },
+    options: { responsive:true, plugins:{ legend:{display:true, labels:{color:'#8B93A0', font:{size:11}}}, tooltip:{callbacks:{label:ctx=>ctx.dataset.label+': '+fmtA(ctx.raw)}} },
+      scales:{ x:{grid:{display:false}}, y:{grid:{color:'#3A4453'}, ticks:{callback:v=>'R$'+(v/1000)+'k'}} } }
+  });
+  const tbody = document.getElementById('atmanDreBody');
+  dre.forEach((d,i) => {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `<td>Ano ${i+1}</td><td>${fmtA(d.receita)}</td><td>${fmtA(d.cmv)}</td><td>${fmtA(d.margem)}</td><td>${fmtA(d.ebitda)}</td>`;
+    tbody.appendChild(tr);
+  });
+}
+
+function initSaas() {
+  const labels = Array.from({length:10}, (_,i)=>'Ano '+(i+1));
+  new Chart(document.getElementById('saasChart'), {
+    type: 'line',
+    data: { labels, datasets: [
+        { label:'Clientes pagantes', data: [0, 0, 10, 50, 150, 280, 400, 480, 520, 550], borderColor:'#D07E5D', backgroundColor:'#D07E5D', tension:0.3, pointRadius:3, fill:false }
+      ] },
+    options: { responsive:true, plugins:{ legend:{display:false} },
+      scales:{ x:{grid:{display:false}}, y:{grid:{color:'#3A4453'}} } }
+  });
+}
+
+showView('home');
 </script>
 
 </body>
